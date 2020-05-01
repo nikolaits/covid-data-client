@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
-interface GlobalData{
-  id:number,
-  cases:number,
-  deaths:number,
-  recovered:number,
-  datetime:string
+import { getDateFormatted } from '../helper';
+interface GlobalData {
+  id: number,
+  cases: number,
+  deaths: number,
+  recovered: number,
+  datetime: string
 }
 @Component({
   selector: 'app-globaldata',
@@ -13,31 +14,42 @@ interface GlobalData{
   styleUrls: ['./globaldata.component.css']
 })
 export class GlobaldataComponent implements OnInit {
-  public items:Array<GlobalData>=[]
-  public tableDivClass="info_table"
+  public items: Array<GlobalData> = []
+  public tableDivClass = "info_table"
   constructor(private globalService: GlobalService) { }
 
   ngOnInit(): void {
-    this.globalService.getGlobalData({}).subscribe((data: any) => {
+    let d = new Date();
+    d.setHours(0);
+    d.setMinutes(0);
+    let d2 = new Date();
+    d2.setHours(23);
+    d2.setMinutes(59);
+    let sdate = getDateFormatted(d);
+    let edate = getDateFormatted(d2);
+    this.globalService.getGlobalData({ startdate: sdate, enddate: edate }).subscribe((data: any) => {
       if (data.status === 200) {
-        let arrayResult  = data.body;
-        // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
-        arrayResult.sort(function(a,b){
-          let adateinfo = a.datetime.split(" ");
-          let adate = adateinfo[0].split("-");
-          let atime = adateinfo[1].split(":");
-          let bdateinfo = b.datetime.split(" ");
-          let bdate = bdateinfo[0].split("-");
-          let btime = bdateinfo[1].split(":");
-          if(new Date(bdate[0], parseInt(bdate[1])-1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1])-1, adate[2], atime[0], atime[1]).getTime()){
-            return 1;
-          } else if(new Date(bdate[0], parseInt(bdate[1])-1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1])-1, adate[2], atime[0], atime[1]).getTime()){
-            return -1;
-          }
-          return 0;
-        });
-        this.items.push(arrayResult[0])
-        console.log("data.body",arrayResult[0]);
+        if (data.body) {
+          let arrayResult = data.body;
+          console.log("arr", arrayResult)
+          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
+          arrayResult.sort(function (a, b) {
+            let adateinfo = a.datetime.split(" ");
+            let adate = adateinfo[0].split("-");
+            let atime = adateinfo[1].split(":");
+            let bdateinfo = b.datetime.split(" ");
+            let bdate = bdateinfo[0].split("-");
+            let btime = bdateinfo[1].split(":");
+            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
+              return 1;
+            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
+              return -1;
+            }
+            return 0;
+          });
+          this.items = arrayResult;
+          console.log("data.body", arrayResult[0]);
+        }
       }
 
     }, (e) => { console.log("ERROR: ", e.status); });

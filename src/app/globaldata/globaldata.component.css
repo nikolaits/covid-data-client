@@ -114,6 +114,15 @@ a{
 .info_table table tbody td:last-child{
     border:none;
 }
+.emptyHeaderContainer{
+    text-align: center;
+}
+.emptyHeaderContainer h2{
+    display: inline-block;
+    border: 3px solid black;
+    padding: 1% 2%;
+    border-radius: 13px;
+}
 /* .info_table table td:first-child{
     border-radius: 10px;
 } */
