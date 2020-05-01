@@ -14,6 +14,9 @@
         </div>
     </div>
     <div [class]="tableDivClass">
+        <input  [(ngModel)]="startDataModel" [owlDateTime]="dt2"  [owlDateTimeTrigger]="dt2"  placeholder="Date Time">
+        <owl-date-time  #dt2></owl-date-time>
+        <button (click)="test()" type="button">TEst</button>
         <div class="emptyHeaderContainer">
             <h2 *ngIf="1 > items.length">No Data found</h2>
         </div>

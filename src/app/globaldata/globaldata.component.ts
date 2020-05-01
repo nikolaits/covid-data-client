@@ -15,7 +15,8 @@ interface GlobalData {
 })
 export class GlobaldataComponent implements OnInit {
   public items: Array<GlobalData> = []
-  public tableDivClass = "info_table"
+  public tableDivClass = "info_table";
+  public startDataModel=new Date();
   constructor(private globalService: GlobalService) { }
 
   ngOnInit(): void {
@@ -54,5 +55,12 @@ export class GlobaldataComponent implements OnInit {
 
     }, (e) => { console.log("ERROR: ", e.status); });
   }
-
+  public test(){
+    alert("startDataModel"+this.startDataModel)
+  }
+  public onDateTimeChange(source, value, input){
+    console.log("source", source)
+    console.log("input", input)
+    console.log("val", value)
+  }
 }

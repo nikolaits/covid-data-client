@@ -8,3 +8,8 @@ export function getDateFormatted(date:Date){
     
     return result;
   }
+  export function verifyDate(d) {
+    var re = /^\d{4}-(0[1-9]|1[0-2])-([0-2]\d|3[01]) (0\d|1[01]):[0-5]\d:[0-5]\d$/;
+    //         yyyy -       MM      -       dd           hh     :   mm  :   ss
+    return re.test(d);
+  }
