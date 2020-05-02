@@ -1,0 +1,5 @@
+<div style="position:fixed;  top:0; left:0; z-index:9999999; min-width:100%!important;">
+    <p *ngFor="let alert of (alerts || [])">
+        <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+    </p>
+</div>

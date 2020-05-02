@@ -14,8 +14,9 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angul
 import { ExportAsModule } from 'ngx-export-as';
 import { CountryComponent } from './country/country.component';
 import { CountriesComponent } from './countries/countries.component';
-import { CountryhistoryComponent } from './countryhistory/countryhistory.component';
-import { CountrieshistoryComponent } from './countrieshistory/countrieshistory.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { HistoryComponent } from './history/history.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,9 @@ import { CountrieshistoryComponent } from './countrieshistory/countrieshistory.c
     GlobaldataComponent,
     CountryComponent,
     CountriesComponent,
-    CountryhistoryComponent,
-    CountrieshistoryComponent
+    NotificationsComponent,
+    HistoryComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
