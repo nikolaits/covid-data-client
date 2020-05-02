@@ -62,4 +62,6 @@
     height: 150%;
   }
 
-  
+  #navbarNav a{
+    font-size: 1.5em;
+  }

@@ -24,7 +24,10 @@
     "@danielmoncada/angular-datetime-picker": "^9.3.0",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "bootstrap": "^4.4.0",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.5.3",
     "moment": "^2.24.0",
+    "ngx-export-as": "^1.4.2",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
