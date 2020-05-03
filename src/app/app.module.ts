@@ -12,6 +12,7 @@ import { GlobaldataComponent } from './globaldata/globaldata.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { ExportAsModule } from 'ngx-export-as';
+import { NgChartjsModule } from 'ng-chartjs';
 import { CountryComponent } from './country/country.component';
 import { CountriesComponent } from './countries/countries.component';
 import { NotificationsComponent } from './notifications/notifications.component';
@@ -40,6 +41,7 @@ import { ReportsComponent } from './reports/reports.component';
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
     ExportAsModule,
+    NgChartjsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
