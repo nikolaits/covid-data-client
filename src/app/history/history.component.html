@@ -49,7 +49,7 @@
             </div>
         </form>
     </div>
-    <div *ngIf="globalTableShow" class="info_table" style="width: 98%; margin-left: 1%;">
+    <div *ngIf="globalTableShow" class="info_table table-responsive" style="width: 98%; margin-left: 1%;">
         <div *ngIf="items.length > 0" class="float-right ml-6" style="width: 50%;">
             <input *ngIf="searchType == 'global'" class="btn btn-secondary btn-lg m-2 float-right" type="button"
                 (click)="savePDF('global')" value="Save as PDF">

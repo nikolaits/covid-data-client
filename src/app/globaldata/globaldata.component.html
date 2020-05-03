@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <div class="info_table">
+    <div class="info_table table-responsive">
         <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()" value="Refresh">
         <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF()" value="Save as PDF">
         <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
