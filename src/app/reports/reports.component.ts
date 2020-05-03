@@ -364,6 +364,20 @@ export class ReportsComponent implements OnInit {
             return 0;
           });
           this.items = arrayResult;
+          while(this.lineChartData[0].data.length > 0) {
+            this.lineChartLabels.pop()
+            this.lineChartData[0].data.pop();
+            this.lineChartData[1].data.pop();
+            this.lineChartData[2].data.pop();
+            this.barChartLabels.pop();
+            this.barChartData[0].data.pop();
+            this.barChartData[1].data.pop();
+            this.barChartData[2].data.pop();
+          }
+          this.lineChartLabels.push('0')
+            this.lineChartData[0].data.push(0);
+            this.lineChartData[1].data.push(0);
+            this.lineChartData[2].data.push(0);
           this.items.forEach(item => {
             this.lineChartLabels.push(item.datetime)
             this.lineChartData[0].data.push(item.cases);
