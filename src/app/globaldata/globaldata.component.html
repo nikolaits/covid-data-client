@@ -9,9 +9,6 @@
         </div>
     </div>
     <div class="info_table">
-        <!-- <input [(ngModel)]="startDataModel" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
-        <owl-date-time #dt2></owl-date-time>
-        <button (click)="test()" type="button">TEst</button> -->
         <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()" value="Refresh">
         <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF()" value="Save as PDF">
         <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">

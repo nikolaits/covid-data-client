@@ -50,9 +50,6 @@
         </form>
     </div>
     <div *ngIf="globalTableShow" class="info_table" style="width: 98%; margin-left: 1%;">
-        <!-- <input [(ngModel)]="startDataModel" [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Date Time">
-        <owl-date-time #dt2></owl-date-time>
-        <button (click)="test()" type="button">TEst</button> -->
         <div *ngIf="items.length > 0" class="float-right ml-6" style="width: 50%;">
             <input *ngIf="searchType == 'global'" class="btn btn-secondary btn-lg m-2 float-right" type="button"
                 (click)="savePDF('global')" value="Save as PDF">

@@ -255,7 +255,7 @@ export class ReportsComponent implements OnInit {
         const fontSize = (height / 114).toFixed(2);
         ctx.font = `${fontSize}em sans-serif`;
         ctx.textBaseline = 'middle';
-        const text = 'Covid 19 - Global Data';
+        const text = '';//'Covid 19 - Global Data';
         const textX = Math.round((width - ctx.measureText(text).width) / 2);
         const textY = height / 2;
         ctx.fillText(text, textX, textY);
@@ -340,7 +340,6 @@ export class ReportsComponent implements OnInit {
       this.displayStartDate = fsDate;
       this.displayEndDate = feDate;
       let filter = { startdate: fsDate, enddate: feDate };
-      console.log("filters", filter)
       this.getGlobalData(filter);
     }
 
@@ -350,8 +349,6 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -381,27 +378,7 @@ export class ReportsComponent implements OnInit {
           chart.update();
           const chart2: any = this.ngChartjsService.getChart('secondChart');
           chart2.update()
-          // this.globalDataChart = {
-          //   id: 'globalDataChart',
-          //   beforeDraw(chart: any): any {
-          //     const width = chart.chart.width;
-          //     const height = chart.chart.height;
-          //     const ctx = chart.chart.ctx;
-          //     ctx.restore();
-          //     const fontSize = (height / 114).toFixed(2);
-          //     ctx.font = `${fontSize}em sans-serif`;
-          //     ctx.textBaseline = 'middle';
-          //     const text = 'Global Data';
-          //     const textX = Math.round((width - ctx.measureText(text).width) / 2);
-          //     const textY = height / 2;
-          //     ctx.fillText(text, textX, textY);
-          //     ctx.save();
-          //   }
-          // };
-
-          // this.inlinePlugin = this.globalDataChart;
-          // this.inlinePlugin.refresh();
-          console.log("data.body", this.items);
+          
         }
       }
 
@@ -412,8 +389,6 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -436,10 +411,6 @@ export class ReportsComponent implements OnInit {
             let fvalue = Math.round((activeCases / all) * 100)
             let svalue = Math.round((deaths / all) * 100);
             let tvalue = Math.round((recovered / all) * 100);
-            console.log("all", all)
-            console.log("activeCases", activeCases)
-            console.log("all", all)
-            console.log("all", all)
 
             if (type == "today") {
               this.todayPieChartData[0].data[0] = fvalue;
@@ -470,7 +441,6 @@ export class ReportsComponent implements OnInit {
             const pchart2: any = this.ngChartjsService.getChart('fourthChart');
             pchart2.update()
           }
-          console.log("data.body", arrayResult);
         }
       }
 
@@ -492,7 +462,6 @@ export class ReportsComponent implements OnInit {
     this.getGlobalDataForDate(filter, '')
   }
   public onDateSelection(args: NgbDate) {
-    console.log("onDateSelection", args);
     let sDate = new Date(args.year, args.month - 1, args.day);
     sDate.setHours(0);
     sDate.setMinutes(0);

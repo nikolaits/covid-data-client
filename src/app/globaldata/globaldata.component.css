@@ -44,7 +44,7 @@ a{
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateZ(0); backface-visibility: hidden;
     transform: translateZ(0);
-  background:#1B2030 url(https://images.unsplash.com/photo-1571993142257-eae0b44cf0f1?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ) 50% 0 no-repeat;
+  background:#1B2030 url(https://www.eu-cord.org/2015/wp-content/uploads/2020/04/covid-19.jpg) 50% 0 no-repeat;
   background-size:100%;
   background-attachment:fixed;
   animation: grow 360s  linear 10ms infinite;
@@ -124,6 +124,3 @@ a{
     padding: 1% 2%;
     border-radius: 13px;
 }
-/* .info_table table td:first-child{
-    border-radius: 10px;
-} */

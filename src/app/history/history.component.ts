@@ -54,8 +54,6 @@ export class HistoryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -76,7 +74,6 @@ export class HistoryComponent implements OnInit {
           this.countries = result.filter(( obj:CountryData ) =>{
             return obj.country !== 'World';
           });
-          console.log("data.body", arrayResult);
         }
       }
 
@@ -189,7 +186,6 @@ export class HistoryComponent implements OnInit {
     this.selectedCountry = args
   }
   public onSearch(){
-    console.log(this.form.controls["dateRange"].value);
     let isValid = true;
     if((this.searchType=='country') &&(this.selectedCountry=="")){
       this.nService.pushAlert({type:'warning', message:"Please, select country"});
@@ -205,8 +201,6 @@ export class HistoryComponent implements OnInit {
       let eDate = new Date(fvalues[1]);
       let fsDate = getDateFormatted(sDate);
       let feDate = getDateFormatted(eDate);
-      console.log("country", this.selectedCountry);
-      console.log("date", fsDate, feDate);
       let filter = { startdate: fsDate, enddate: feDate };
       if((this.searchType=='country') &&(this.selectedCountry != "")){
         filter['country'] = this.selectedCountry;
@@ -233,8 +227,6 @@ export class HistoryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("result", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -270,8 +262,6 @@ export class HistoryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -292,7 +282,6 @@ export class HistoryComponent implements OnInit {
             map(text => this.searchGlobal(text, this.pipe))
           );
           this.loadingGlobal = false;
-          console.log("data.body", arrayResult[0]);
         }
       }
 

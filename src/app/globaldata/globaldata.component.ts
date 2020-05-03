@@ -29,8 +29,6 @@ export class GlobaldataComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -46,7 +44,6 @@ export class GlobaldataComponent implements OnInit {
             return 0;
           });
           this.items = arrayResult;
-          console.log("data.body", arrayResult[0]);
         }
       }
 
@@ -70,8 +67,6 @@ export class GlobaldataComponent implements OnInit {
         this.items=[];
         if (data.body) {
           let arrayResult = data.body;
-          console.log("arr", arrayResult)
-          // console.log("date", new Date(date[0], parseInt(date[1])-1, date[2], time[0], time[1]))
           arrayResult.sort(function (a, b) {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
@@ -87,7 +82,6 @@ export class GlobaldataComponent implements OnInit {
             return 0;
           });
           this.items = arrayResult;
-          console.log("data.body", arrayResult[0]);
         }
       }
 
