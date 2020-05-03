@@ -1,6 +1,6 @@
 # CovidDataClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.0.
+## [DEMO](https://nikolaits.github.io/covid-data-client/)
 
 ## Development server
 
