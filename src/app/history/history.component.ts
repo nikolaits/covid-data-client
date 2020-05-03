@@ -54,7 +54,7 @@ export class HistoryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
+          arrayResult.sort((a, b) => {
             let adateinfo = a.datetime.split(" ");
             let adate = adateinfo[0].split("-");
             let atime = adateinfo[1].split(":");
@@ -70,6 +70,14 @@ export class HistoryComponent implements OnInit {
           });
           let result = arrayResult.filter(obj => {
             return obj.datetime.includes(arrayResult[0].datetime.slice(0, -3))
+          })
+          result.sort((a, b)=>{
+            if (a.country>b.country) {
+              return 1;
+            } else if (a.country<b.country) {
+              return -1;
+            }
+            return 0;
           })
           this.countries = result.filter(( obj:CountryData ) =>{
             return obj.country !== 'World';
