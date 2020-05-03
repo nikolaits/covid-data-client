@@ -1,6 +1,7 @@
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-export const baseURL = "http://localhost:3009";
+// export const baseURL = "http://localhost:3009";
+export const baseURL = "https://www.geit-dev.info/api/covid19"
 
 export interface CountryData {
   id: number,
@@ -16,6 +17,14 @@ export interface CountryData {
   deathsPerOneMillion: number,
   totalTests: number,
   testsPerOneMillion: number,
+  datetime: string
+}
+
+export interface GlobalData {
+  id: number,
+  cases: number,
+  deaths: number,
+  recovered: number,
   datetime: string
 }
 export function getDateFormatted(date: Date) {
@@ -46,6 +55,23 @@ export function saveToPDF(id:string, title:string, filename:string, orientation:
   let doc = new jsPDF(l, '', '', '');
   doc.fromHTML('<h1>'+title+'</h1>', 15, 10)
   doc.autoTable({ html: id, startY: 35 })
+
+  doc.save(filename);
+}
+export function saveImgToPDF(imgData:string, title:string, filename:string, orientation:string, format:string) {
+  let l = {
+    orientation: orientation,
+    unit: 'mm',
+    format: format,
+    compress: true,
+    fontSize: 8,
+    lineHeight: 1,
+    autoSize: false,
+    printHeaders: true
+  };
+  let doc = new jsPDF(l, '', '', '');
+  doc.fromHTML('<h1>'+title+'</h1>', 15, 10)
+  doc.addImage(imgData, 'PNG', 15, 35);
 
   doc.save(filename);
 }

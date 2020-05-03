@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF } from '../helper';
+import { getDateFormatted, saveToPDF, GlobalData } from '../helper';
 
-interface GlobalData {
-  id: number,
-  cases: number,
-  deaths: number,
-  recovered: number,
-  datetime: string
-}
+
 @Component({
   selector: 'app-globaldata',
   templateUrl: './globaldata.component.html',

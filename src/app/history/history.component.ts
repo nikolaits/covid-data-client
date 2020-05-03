@@ -1,9 +1,9 @@
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { GlobalService } from '../global.service';
 import { getDateFormatted, saveToPDF, CountryData } from '../helper';
-import { Observable, of, interval } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NotificationsService } from '../notifications.service';
 
@@ -36,7 +36,7 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.formbuilder.group({
-      dateRange: new FormControl([new Date(2020, 4, 17, 0, 0), new Date()]),      
+      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),      
     });
     let endd = new Date();
     endd.setHours(23);
