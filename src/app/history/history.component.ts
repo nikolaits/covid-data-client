@@ -68,9 +68,14 @@ export class HistoryComponent implements OnInit {
             }
             return 0;
           });
-          let result = arrayResult.filter(obj => {
-            return obj.datetime.includes(arrayResult[0].datetime.slice(0, -3))
-          })
+          const result = arrayResult.reduce((obj, current) => {
+            const x = obj.find(item => item.country === current.country);
+            if (!x) {
+              return obj.concat([current]);
+            } else {
+              return obj;
+            }
+          }, []);
           result.sort((a, b)=>{
             if (a.country>b.country) {
               return 1;
