@@ -595,7 +595,7 @@ export class ReportsComponent implements OnInit {
   }
   public selectChange(args: string) {
     this.selectedCountry = args;
-    if (this.isFirstLoad) {
+    if (this.fromDate && this.toDate){
       this.isFirstLoad = false;
       let d = new Date(this.fromDate.year, (this.fromDate.month-1), this.fromDate.day);
       d.setHours(0);
@@ -607,6 +607,9 @@ export class ReportsComponent implements OnInit {
       let edate = getDateFormatted(d2);
       let filter = { startdate: sdate, enddate: edate, country: this.selectedCountry };
       this.getCountryInfo(filter);
+    }else{
+      this.nService.pushAlert({ type: 'warning', message: "Please, select valid DateTime range" });
+
     }
   }
   onDateSelectionRange(date: NgbDate) {
