@@ -8,62 +8,68 @@
             </div>
         </div>
     </div>
-    <div class="info_table table-responsive">
-        <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()" value="Refresh">
-        <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF()" value="Save as PDF">
-        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-        <div class="emptyHeaderContainer">
-            <h2 *ngIf="1 > items.length">No Data found</h2>
-        </div>
-        <table *ngIf="items.length > 0" class="table table-striped table-dark">
+    <div class="container-fluid">
+        <div class="info_table table-responsive">
+            <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()" value="Refresh">
+            <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF()" value="Save as PDF">
+            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <div class="emptyHeaderContainer">
+                <h2 *ngIf="1 > items.length">No Data found</h2>
+            </div>
+            <table *ngIf="items.length > 0" class="table table-striped table-dark">
 
-            <tbody>
-                <tr *ngFor="let item of items; index as i">
-                    <td>
-                        <h2>Cases:</h2>
-                        <h3>{{ item.cases | number }}</h3>
-                    </td>
-                    <td>
-                        <h2>Deaths:</h2>
-                        <h3>{{ item.deaths | number }}</h3>
-                    </td>
-                    <td>
-                        <h2>Recovered:</h2>
-                        <h3>{{ item.recovered | number }}</h3>
-                    </td>
-                    <td>
-                        <h2>Date:</h2>
-                        <h3>{{ item.datetime }}</h3>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div style="display: none;">
-            <table id="myTableElementId">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Cases</th>
-                        <th scope="col">Deaths</th>
-                        <th scope="col">Recovered</th>
-                        <th scope="col">Date</th>
-
-                    </tr>
-                </thead>
                 <tbody>
                     <tr *ngFor="let item of items; index as i">
-                        <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ item.cases | number }}</td>
-                        <td>{{ item.deaths | number }}</td>
-                        <td>{{ item.recovered | number }}</td>
-                        <td>{{ item.datetime  }}</td>
+                        <td>
+                            <b>Cases:</b>
+                            <br/>
+                            {{ item.cases | number }}
+                        </td>
+                        <td>
+                            <b>Deaths:</b>
+                            <br/>
+                            {{ item.deaths | number }}
+                        </td>
+                        <td>
+                            <b>Recovered:</b>
+                            <br/>
+                            {{ item.recovered | number }}
+                        </td>
+                        <td>
+                            <b>Date:</b>
+                            <br/>
+                            {{ item.datetime }}
+                        </td>
                     </tr>
                 </tbody>
             </table>
-        </div>
 
+            <div style="display: none;">
+                <table id="myTableElementId">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Cases</th>
+                            <th scope="col">Deaths</th>
+                            <th scope="col">Recovered</th>
+                            <th scope="col">Date</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items; index as i" style="margin: 2%;">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ item.cases | number }}</td>
+                            <td>{{ item.deaths | number }}</td>
+                            <td>{{ item.recovered | number }}</td>
+                            <td>{{ item.datetime  }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
     </div>
 </div>

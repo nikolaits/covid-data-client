@@ -102,6 +102,7 @@ a{
     /* border: 5px solid rgba(0, 128, 255, 0.9) !important; */
     border-radius: 25px!important;
     box-shadow: none;
+    font-size: large;
 }
 .info_table table tbody .info_table table tbody tr{
     box-shadow: none;

@@ -4,106 +4,114 @@
             <h1>Latest countries data</h1>
         </div>
     </div>
-    <div class="info_table table-responsive">
-        <div class="float-right ml-6" style="width: 50%;">
-
-            <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()"
-                value="Refresh">
-            <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                (click)="savePDF()" value="Save as PDF">
-            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                <span class="sr-only">Loading...</span>
+    <div class="container-fluid">
+        <div *ngIf="items.length > 0" class="container mt-3">
+            <div class="row">
+                <div class="col-sm">
+                    <form>
+                        <div class="form-group form-inline">
+                            <input class="form-control ml-2" type="text" placeholder="Search" [formControl]="filter" />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm">
+                    <div class="float-right">
+                        <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()"
+                        value="Refresh">
+                        <input  class="btn btn-secondary btn-lg m-2 float-right" type="button"
+                            (click)="savePDF()" value="Save as PDF">
+                        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div *ngIf="1 > items.length" class="emptyHeaderContainer">
+        <div *ngIf="1 > items.length" class="emptyHeaderContainer mt-3">
             <h2>No Data found</h2>
         </div>
-        <form *ngIf="items.length > 0">
-            <div class="form-group form-inline">
-                <input class="form-control ml-2" type="text" placeholder="Search" [formControl]="filter" />
-            </div>
-        </form>
-        <table *ngIf="items.length > 0" id="contriesTableElementId" class="table table-striped table-dark">
-            <thead>
-                <tr>
-                    <th class="pointer" scope="col">#</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'country' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('country')">Country</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'cases' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('cases')">Cases</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'todayCases' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('todayCases')">TodayCases</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'deaths' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('deaths')">Deaths</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'todayDeaths' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('todayDeaths')">TodayDeaths</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'recovered' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('recovered')">Recovered</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'active' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('active')">Active</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'critical' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('critical')">Critical</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'casesPerOneMillion' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('casesPerOneMillion')">CasesPerOneMillion</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'deathsPerOneMillion' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('deathsPerOneMillion')">DeathsPerOneMillion</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'totalTests' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('totalTests')">TotalTests</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'testsPerOneMillion' ? 'black' : 'white' }"
-                        scope="col" (click)="sortBy('testsPerOneMillion')">TestsPerOneMillion</th>
-                    <th class="pointer" [ngStyle]="{'color':selectedS === 'datetime' ? 'black' : 'white' }" scope="col"
-                        (click)="sortBy('datetime')">Date</th>
+        <div class="table-responsive">
+            <table *ngIf="items.length > 0" id="contriesTableElementId" class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th class="pointer" scope="col">#</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'country' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('country')">Country</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'cases' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('cases')">Cases</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'todayCases' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('todayCases')">TodayCases</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'deaths' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('deaths')">Deaths</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'todayDeaths' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('todayDeaths')">TodayDeaths</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'recovered' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('recovered')">Recovered</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'active' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('active')">Active</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'critical' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('critical')">Critical</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'casesPerOneMillion' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('casesPerOneMillion')">CasesPerOneMillion</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'deathsPerOneMillion' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('deathsPerOneMillion')">DeathsPerOneMillion</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'totalTests' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('totalTests')">TotalTests</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'testsPerOneMillion' ? 'black' : 'white' }"
+                            scope="col" (click)="sortBy('testsPerOneMillion')">TestsPerOneMillion</th>
+                        <th class="pointer" [ngStyle]="{'color':selectedS === 'datetime' ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy('datetime')">Date</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of countries$ | async; index as i">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>
-                        <ngb-highlight [result]="item.country " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.cases | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.todayCases | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.deaths | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.todayDeaths | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.recovered | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.active | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.critical | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.casesPerOneMillion | number " [term]="filter.value">
-                        </ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.deathsPerOneMillion | number " [term]="filter.value">
-                        </ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.totalTests | number " [term]="filter.value"></ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.testsPerOneMillion | number " [term]="filter.value">
-                        </ngb-highlight>
-                    </td>
-                    <td>
-                        <ngb-highlight [result]="item.datetime " [term]="filter.value"></ngb-highlight>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of countries$ | async; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>
+                            <ngb-highlight [result]="item.country " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.cases | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.todayCases | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.deaths | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.todayDeaths | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.recovered | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.active | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.critical | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.casesPerOneMillion | number " [term]="filter.value">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.deathsPerOneMillion | number " [term]="filter.value">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.totalTests | number " [term]="filter.value"></ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.testsPerOneMillion | number " [term]="filter.value">
+                            </ngb-highlight>
+                        </td>
+                        <td>
+                            <ngb-highlight [result]="item.datetime " [term]="filter.value"></ngb-highlight>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

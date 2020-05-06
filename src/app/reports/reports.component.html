@@ -4,161 +4,152 @@
             <h1>Global Data Reports</h1>
         </div>
     </div>
-    <div class="searchForm">
-        <form [formGroup]="form" class="form-inline">
-            <div class="form-group mx-sm-3 mb-2">
+    <div class="container-fluid">
+        <div class="searchForm">
+            <form [formGroup]="form" class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <div class="input-group mb-3 ">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Select datetime range:</label>
+                        </div>
+                        <input name="dateRange" formControlName="dateRange" [owlDateTime]="dateRange"
+                            placeholder="YYYY-MM-DD ~ YYYY-MM-DD" [owlDateTimeTrigger]="dateRange" class="form-control"
+                            [selectMode]="'range'" />
+
+                        <owl-date-time [firstDayOfWeek]="'1'" [pickerType]="'both'" #dateRange></owl-date-time>
+                    </div>
+                </div>
                 <div class="input-group mb-3 ">
                     <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Select datetime range:</label>
                     </div>
-                    <input name="dateRange" formControlName="dateRange" [owlDateTime]="dateRange"
-                        placeholder="YYYY-MM-DD ~ YYYY-MM-DD" [owlDateTimeTrigger]="dateRange" class="form-control"
-                        [selectMode]="'range'" />
-
-                    <owl-date-time [firstDayOfWeek]="'1'" [pickerType]="'both'" #dateRange></owl-date-time>
+                    <button type="button" class="btn btn-secondary btn-lg mb-2" (click)="onSearch()">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="info_table table-responsive">
+            <div class="menu_btns">
+                <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF('firstChart')"
+                    value="Save as PDF">
+                <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <div class="input-group mb-3 ">
-                <div class="input-group-prepend">
+            <div class="canvas_container">
+                <h3>Datetime Range ({{displayStartDate}}-{{displayEndDate}})</h3>
+                <canvas id="firstChart" ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels"
+                    [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+                    [inlinePlugins]="inlinePlugin">
+                </canvas>
+            </div>
+            <hr />
+            <div class="menu_btns">
+                <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF('secondChart')"
+                    value="Save as PDF">
+                <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
-                <button type="button" class="btn btn-secondary btn-lg mb-2" (click)="onSearch()">Search</button>
             </div>
-        </form>
-    </div>
-    <div class="info_table table-responsive">
-        <div class="menu_btns">
-            <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF('firstChart')"
-                value="Save as PDF">
-            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                <span class="sr-only">Loading...</span>
+            <div class="canvas_container">
+                <h3>Datetime Range ({{displayStartDate}}-{{displayEndDate}})</h3>
+                <canvas id="secondChart" ngChartjs [datasets]="barChartData" [labels]="barChartLabels"
+                    [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
+                    [inlinePlugins]="barInlinePlugin">
+                </canvas>
             </div>
-        </div>
-        <div class="canvas_container">
-            <h3>Datetime Range ({{displayStartDate}}-{{displayEndDate}})</h3>
-            <canvas id="firstChart" ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels"
-                [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
-                [inlinePlugins]="inlinePlugin">
-            </canvas>
-        </div>
-        <hr />
-        <div class="menu_btns">
-            <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="savePDF('secondChart')"
-                value="Save as PDF">
-            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <div class="canvas_container">
-            <h3>Datetime Range ({{displayStartDate}}-{{displayEndDate}})</h3>
-            <canvas id="secondChart" ngChartjs [datasets]="barChartData" [labels]="barChartLabels"
-                [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType"
-                [inlinePlugins]="barInlinePlugin">
-            </canvas>
-        </div>
-        <hr />
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="menu_btns">
-                        <input class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                            (click)="savePDF('thirdChart')" value="Save as PDF">
-                        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                            <span class="sr-only">Loading...</span>
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="menu_btns">
+                            <input class="btn btn-secondary btn-lg m-2 float-right" type="button"
+                                (click)="savePDF('thirdChart')" value="Save as PDF">
+                            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="canvas_container">
+                            <h3>Latest data for {{displayTodayDate}}</h3>
+                            <canvas id="thirdChart" ngChartjs [datasets]="todayPieChartData"
+                                [labels]="todayPieChartLabels" [chartType]="todayPieChartType"
+                                [options]="todayPieChartOptions" [inlinePlugins]="todayPieChartPlugin"
+                                [colors]="todayPieChartColors" [legend]="todayPieChartLegend">
+                            </canvas>
                         </div>
                     </div>
-                    <div class="canvas_container">
-                        <h3>Latest data for {{displayTodayDate}}</h3>
-                        <canvas id="thirdChart" ngChartjs [datasets]="todayPieChartData" [labels]="todayPieChartLabels"
-                            [chartType]="todayPieChartType" [options]="todayPieChartOptions"
-                            [inlinePlugins]="todayPieChartPlugin" [colors]="todayPieChartColors"
-                            [legend]="todayPieChartLegend">
-                        </canvas>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="menu_btns">
-                        <input class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                            (click)="savePDF('fourthChart')" value="Save as PDF">
-                        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                            <span class="sr-only">Loading...</span>
+                    <div class="col">
+                        <div class="menu_btns">
+                            <input class="btn btn-secondary btn-lg m-2 float-right" type="button"
+                                (click)="savePDF('fourthChart')" value="Save as PDF">
+                            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="canvas_container">
+                            <form class="form-inline float-right">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input (dateSelect)="onDateSelection($event)" class="form-control"
+                                            placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
+                                            #d="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                                type="button">Select Date</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <canvas id="fourthChart" ngChartjs [datasets]="pieChartData" [labels]="pieChartLabels"
+                                [chartType]="pieChartType" [options]="pieChartOptions" [inlinePlugins]="pieChartPlugin"
+                                [colors]="pieChartColors" [legend]="pieChartLegend">
+                            </canvas>
                         </div>
                     </div>
-                    <div class="canvas_container">
-                        <form class="form-inline float-right">
+                </div>
+            </div>
+            <hr />
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="input-group mb-3 float-left">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Select country:</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" #t (change)="selectChange(t.value)">
+                                <option disabled selected>Choose...</option>
+                                <option *ngFor="let country of countries" [value]="country.country">{{country.country}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <form *ngIf="selectedCountry!=''" class="form-inline">
+                            <div class="form-group hidden">
+                                <div class="input-group">
+                                    <input name="datepicker" class="form-control" ngbDatepicker
+                                        #datepicker="ngbDatepicker" [autoClose]="'outside'"
+                                        (dateSelect)="onDateSelectionRange($event)" [displayMonths]="2"
+                                        [dayTemplate]="tt" outsideDays="hidden" [startDate]="fromDate!">
+                                    <ng-template #tt let-date let-focused="focused">
+                                        <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                                            [class.faded]="isHovered(date) || isInside(date)"
+                                            (mouseenter)="hoveredDate = date" (mouseleave)="hoveredDate = null">
+                                            {{ date.day }}
+                                        </span>
+                                    </ng-template>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input (dateSelect)="onDateSelection($event)" class="form-control"
-                                        placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="model" ngbDatepicker
-                                        #d="ngbDatepicker">
+                                    <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+                                        value="{{formatter.format(fromDate)+' ~ '+ formatter.format(toDate)}}"
+                                        (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
                                     <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
-                                            type="button">Select Date</button>
+                                        <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()"
+                                            type="button">Select Range</button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                        <canvas id="fourthChart" ngChartjs [datasets]="pieChartData" [labels]="pieChartLabels"
-                            [chartType]="pieChartType" [options]="pieChartOptions" [inlinePlugins]="pieChartPlugin"
-                            [colors]="pieChartColors" [legend]="pieChartLegend">
-                        </canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <div class="input-group mb-3 float-left">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Select country:</label>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect01" #t (change)="selectChange(t.value)">
-                            <option disabled selected>Choose...</option>
-                            <option *ngFor="let country of countries" [value]="country.country">{{country.country}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <form *ngIf="selectedCountry!=''" class="form-inline">
-                        <div class="form-group hidden">
-                          <div class="input-group">
-                            <input name="datepicker"
-                                   class="form-control"
-                                   ngbDatepicker
-                                   #datepicker="ngbDatepicker"
-                                   [autoClose]="'outside'"
-                                   (dateSelect)="onDateSelectionRange($event)"
-                                   [displayMonths]="2"
-                                   [dayTemplate]="tt"
-                                   outsideDays="hidden"
-                                   [startDate]="fromDate!">
-                            <ng-template #tt let-date let-focused="focused">
-                              <span class="custom-day"
-                                    [class.focused]="focused"
-                                    [class.range]="isRange(date)"
-                                    [class.faded]="isHovered(date) || isInside(date)"
-                                    (mouseenter)="hoveredDate = date"
-                                    (mouseleave)="hoveredDate = null">
-                                {{ date.day }}
-                              </span>
-                            </ng-template>
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="input-group">
-                            <input #dpFromDate
-                                   class="form-control" placeholder="yyyy-mm-dd"
-                                   name="dpFromDate"
-                                   value="{{formatter.format(fromDate)+' ~ '+ formatter.format(toDate)}}"
-                                   (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
-                            <div class="input-group-append">
-                              <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button">Select Range</button>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- <div class="form-group ml-2">
+                            <!-- <div class="form-group ml-2">
                           <div class="input-group">
                             <input #dpToDate
                                    class="form-control" placeholder="yyyy-mm-dd"
@@ -170,25 +161,26 @@
                             </div>
                           </div>
                         </div> -->
-                      </form>
-                </div>
-                <div class="col-sm">
-                    <div class="menu_btns">
-                        <input *ngIf="selectedCountry!=''" class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                            (click)="saveCountryPDF('fifthChart')" value="Save as PDF">
-                        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                            <span class="sr-only">Loading...</span>
+                        </form>
+                    </div>
+                    <div class="col-sm">
+                        <div class="menu_btns">
+                            <input *ngIf="selectedCountry!=''" class="btn btn-secondary btn-lg m-2 float-right"
+                                type="button" (click)="saveCountryPDF('fifthChart')" value="Save as PDF">
+                            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div *ngIf="selectedCountry!=''" class="canvas_container">
-            <h3>Date For {{selectedCountry+' ('+formatter.format(fromDate)+' ~ '+ formatter.format(toDate)}})</h3>
-            <canvas id="fifthChart" ngChartjs [datasets]="countrylineChartData" [labels]="countrylineChartLabels"
-            [options]="countrylineChartOptions" [legend]="countrylineChartLegend" [chartType]="countrylineChartType"
-            [inlinePlugins]="countryinlinePlugin">
-            </canvas>
+            <div *ngIf="selectedCountry!=''" class="canvas_container">
+                <h3>Date For {{selectedCountry+' ('+formatter.format(fromDate)+' ~ '+ formatter.format(toDate)}})</h3>
+                <canvas id="fifthChart" ngChartjs [datasets]="countrylineChartData" [labels]="countrylineChartLabels"
+                    [options]="countrylineChartOptions" [legend]="countrylineChartLegend"
+                    [chartType]="countrylineChartType" [inlinePlugins]="countryinlinePlugin">
+                </canvas>
+            </div>
         </div>
     </div>
 </div>
