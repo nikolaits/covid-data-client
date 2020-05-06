@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Chart } from 'chart.js';
-import { saveImgToPDF, GlobalData, getDateFormatted, CountryData } from "../helper"
+import { saveImgToPDF, GlobalData, getDateFormatted, CountryData, compare, reduceCompare } from "../helper"
 import { GlobalService } from '../global.service';
 import { NotificationsService } from '../notifications.service';
 import { NgChartjsService } from 'ng-chartjs';
@@ -455,20 +455,7 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare("asc", "datetime"));
           this.items = arrayResult;
           while (this.lineChartData[0].data.length > 0) {
             this.lineChartLabels.pop()
@@ -509,20 +496,7 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare("asc", "datetime"));
           if (arrayResult[0] && arrayResult[0].cases) {
             let activeCases = (arrayResult[0].cases - (arrayResult[0].deaths + arrayResult[0].recovered));
             let deaths = arrayResult[0].deaths;
@@ -657,20 +631,7 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare("asc", "datetime"));
           while (this.countrylineChartData[0].data.length > 0) {
             this.countrylineChartLabels.pop()
             this.countrylineChartData[0].data.pop();
@@ -707,36 +668,8 @@ export class ReportsComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort((a, b) => {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
-          const result = arrayResult.reduce((obj, current) => {
-            const x = obj.find(item => item.country === current.country);
-            if (!x) {
-              return obj.concat([current]);
-            } else {
-              return obj;
-            }
-          }, []);
-          result.sort((a, b) => {
-            if (a.country > b.country) {
-              return 1;
-            } else if (a.country < b.country) {
-              return -1;
-            }
-            return 0;
-          })
+          arrayResult.sort(compare("asc", "country"));
+          const result = arrayResult.reduce(reduceCompare("country"), []);
           this.countries = result.filter((obj: CountryData) => {
             return obj.country !== 'World';
           });

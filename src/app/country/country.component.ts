@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData } from '../helper';
+import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare } from '../helper';
 
 
 @Component({
@@ -13,8 +13,8 @@ export class CountryComponent implements OnInit {
   public items: Array<CountryData> = []
   public countries: Array<CountryData>=[]
   public country: string = "USA";
-  public sorttype: string = "asc";
-  public selectedS:string = "datetime"
+  public sorttype: string = "desc";
+  public selectedS:string = "cases"
   public loading=false;
   constructor(private globalService: GlobalService) { }
 
@@ -31,36 +31,8 @@ export class CountryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort((a, b) => {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
-          const result = arrayResult.reduce((obj, current) => {
-            const x = obj.find(item => item.country === current.country);
-            if (!x) {
-              return obj.concat([current]);
-            } else {
-              return obj;
-            }
-          }, []);
-          result.sort((a, b)=>{
-            if (a.country>b.country) {
-              return 1;
-            } else if (a.country<b.country) {
-              return -1;
-            }
-            return 0;
-          })
+          arrayResult.sort(compare("asc", "country"));
+          const result = arrayResult.reduce(reduceCompare("country"), []);
           this.countries = result.filter(( obj:CountryData ) =>{
             return obj.country !== 'World';
           });
@@ -88,20 +60,7 @@ export class CountryComponent implements OnInit {
         this.items = [];
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare(this.sorttype, this.selectedS));
           this.items = arrayResult;
           this.loading = true;
         }
@@ -111,37 +70,12 @@ export class CountryComponent implements OnInit {
   }
   public sortBy(args){
     this.selectedS = args;
+    this.sorttype=='asc' ? this.sorttype='desc' : this.sorttype='asc';
     if(args!='datetime'){
-      this.items.sort((a,b)=>{
-        if ( a[args] < b[args] ){
-          return this.sorttype=='asc'? -1 : 1;
-        }
-        if ( a[args] > b[args] ){
-          return this.sorttype=='asc'? 1 : -1;
-        }
-        return 0;
-      })
+      this.items.sort(compare(this.sorttype, this.selectedS))
       
     }else{
-      this.items.sort( (a, b) =>{
-        let adateinfo = a.datetime.split(" ");
-        let adate = adateinfo[0].split("-");
-        let atime = adateinfo[1].split(":");
-        let bdateinfo = b.datetime.split(" ");
-        let bdate = bdateinfo[0].split("-");
-        let btime = bdateinfo[1].split(":");
-        if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() > new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
-          return this.sorttype=='asc'? -1 : 1;
-        } else if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() < new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
-          return this.sorttype=='asc'? 1 : -1;
-        }
-        return 0;
-      });
-    }
-    if(this.sorttype=='asc'){
-      this.sorttype='desc';
-    }else{
-      this.sorttype='asc';
+      this.items.sort(compare(this.sorttype, this.selectedS));
     }
   }
   public selectChange(args:string){
@@ -159,20 +93,7 @@ export class CountryComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare(this.sorttype, this.selectedS));
           this.items = arrayResult;
           this.loading = false;
         }
