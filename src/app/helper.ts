@@ -41,6 +41,7 @@ export function verifyDate(d) {
   //         yyyy -       MM      -       dd           hh     :   mm  :   ss
   return re.test(d);
 }
+// save to PDF methods
 export function saveToPDF(id:string, title:string, filename:string, orientation:string, format:string) {
   let l = {
     orientation: orientation,
@@ -74,4 +75,46 @@ export function saveImgToPDF(imgData:string, title:string, filename:string, orie
   doc.addImage(imgData, 'PNG', 15, 35);
 
   doc.save(filename);
+}
+
+// sort method
+
+export function compare(type:string, property:string){
+  if(property == "datetime"){
+    return (a, b) => {
+      let adateinfo = a[property].split(" ");
+      let adate = adateinfo[0].split("-");
+      let atime = adateinfo[1].split(":");
+      let bdateinfo = b[property].split(" ");
+      let bdate = bdateinfo[0].split("-");
+      let btime = bdateinfo[1].split(":");
+      if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() > new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
+        return type == 'asc' ? -1 : 1;
+      } else if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() < new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
+        return type == 'asc' ? 1 : -1;
+      }
+      return 0;
+    }
+  } else{
+    return (a, b) => {
+      if (a[property] < b[property]) {
+        return type == 'asc' ? -1 : 1;
+      }
+      if (a[property] > b[property]) {
+        return type == 'asc' ? 1 : -1;
+      }
+      return 0;
+    }
+  }
+}
+
+export function reduceCompare(property:string){
+  return (obj, current) => {
+    const x = obj.find(item => item[property] === current[property]);
+    if (!x) {
+      return obj.concat([current]);
+    } else {
+      return obj;
+    }
+  };
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData } from '../helper';
+import { getDateFormatted, saveToPDF, CountryData, compare } from '../helper';
 import { Observable, of, interval } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 @Component({
@@ -16,7 +16,7 @@ export class CountriesComponent implements OnInit {
   public items: Array<CountryData> = []
   public countries$: Observable<CountryData[]>
   public sorttype: string = "asc";
-  public selectedS: string = "datetime";
+  public selectedS: string = "country";
   public filter = new FormControl('');
   public loading=false;
   constructor(private globalService: GlobalService, private pipe: DecimalPipe) {
@@ -37,20 +37,7 @@ export class CountriesComponent implements OnInit {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
-          arrayResult.sort(function (a, b) {
-            let adateinfo = a.datetime.split(" ");
-            let adate = adateinfo[0].split("-");
-            let atime = adateinfo[1].split(":");
-            let bdateinfo = b.datetime.split(" ");
-            let bdate = bdateinfo[0].split("-");
-            let btime = bdateinfo[1].split(":");
-            if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() > new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return 1;
-            } else if (new Date(bdate[0], parseInt(bdate[1]) - 1, bdate[2], btime[0], btime[1]).getTime() < new Date(adate[0], parseInt(adate[1]) - 1, adate[2], atime[0], atime[1]).getTime()) {
-              return -1;
-            }
-            return 0;
-          });
+          arrayResult.sort(compare(this.sorttype, this.selectedS));
           let result = arrayResult.filter((obj: CountryData) => {
             return obj.datetime.includes(arrayResult[0].datetime.slice(0, -3))
           })
@@ -100,49 +87,17 @@ export class CountriesComponent implements OnInit {
   public sortBy(args) {
     this.selectedS = args;
     this.filter.setValue("");
+    this.sorttype == 'asc'? this.sorttype = 'desc': this.sorttype = 'asc';
     if (args != 'datetime') {
-      this.items.sort((a, b) => {
-        if (a[args] < b[args]) {
-          return this.sorttype == 'asc' ? -1 : 1;
-        }
-        if (a[args] > b[args]) {
-          return this.sorttype == 'asc' ? 1 : -1;
-        }
-        return 0;
-      })
-      let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort((a, b) => {
-        if (a[args] < b[args]) {
-          return this.sorttype == 'asc' ? -1 : 1;
-        }
-        if (a[args] > b[args]) {
-          return this.sorttype == 'asc' ? 1 : -1;
-        }
-        return 0;
-      })))
+      this.items.sort(compare(this.sorttype, this.selectedS))
+      let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort(compare(this.sorttype, this.selectedS))))
       this.countries$ = sorted$;
 
     } else {
-      let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort((a, b) => {
-        let adateinfo = a.datetime.split(" ");
-        let adate = adateinfo[0].split("-");
-        let atime = adateinfo[1].split(":");
-        let bdateinfo = b.datetime.split(" ");
-        let bdate = bdateinfo[0].split("-");
-        let btime = bdateinfo[1].split(":");
-        if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() > new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
-          return this.sorttype == 'asc' ? -1 : 1;
-        } else if (new Date(parseInt(bdate[0]), parseInt(bdate[1]) - 1, parseInt(bdate[2]), parseInt(btime[0]), parseInt(btime[1])).getTime() < new Date(parseInt(adate[0]), parseInt(adate[1]) - 1, parseInt(adate[2]), parseInt(atime[0]), parseInt(atime[1])).getTime()) {
-          return this.sorttype == 'asc' ? 1 : -1;
-        }
-        return 0;
-      })));
+      let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort(compare(this.sorttype, this.selectedS))));
       this.countries$ = sorted$;
     }
-    if (this.sorttype == 'asc') {
-      this.sorttype = 'desc';
-    } else {
-      this.sorttype = 'asc';
-    }
+    
   }
   public search(text: string, pipe: PipeTransform): CountryData[] {
     return this.items.filter(country => {
