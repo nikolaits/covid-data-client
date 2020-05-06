@@ -32,17 +32,9 @@ export class ReportsComponent implements OnInit {
 
   public fromDate: NgbDate;
   public toDate: NgbDate | null = null;
-  constructor(@Inject(DOCUMENT) private document: Document, private globalService: GlobalService, private nService: NotificationsService, private formbuilder: FormBuilder, private ngChartjsService: NgChartjsService, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
-    this.form = this.formbuilder.group({
-      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
-    });
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
 
-
-  }
-
-  lineChartData: Chart.ChartDataSets[] = [
+  // Line chart global data for selected date range
+  public lineChartData: Chart.ChartDataSets[] = [
     {
       label: 'Cases',
       fill: false,
@@ -107,15 +99,17 @@ export class ReportsComponent implements OnInit {
       data: [0],
     }
   ];
-  lineChartLabels: Array<any> = ['0'];
-  lineChartOptions: any = {
+  public lineChartLabels: Array<any> = ['0'];
+  public lineChartOptions: any = {
     responsive: true
   };
-  lineChartLegend = true;
-  lineChartType = 'line';
-  inlinePlugin: any;
-  globalDataChart: any;
-  countrylineChartData: Chart.ChartDataSets[] = [
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+  public inlinePlugin: any;
+  public globalDataChart: any;
+
+  // Line chart global data for country and date range
+  public countrylineChartData: Chart.ChartDataSets[] = [
     {
       label: 'Cases',
       fill: false,
@@ -180,15 +174,17 @@ export class ReportsComponent implements OnInit {
       data: [0],
     }
   ];
-  countrylineChartLabels: Array<any> = ['0'];
-  countrylineChartOptions: any = {
+  public countrylineChartLabels: Array<any> = ['0'];
+  public countrylineChartOptions: any = {
     responsive: true
   };
-  countrylineChartLegend = true;
-  countrylineChartType = 'line';
-  countryinlinePlugin: any;
-  countryglobalDataChart: any;
-  barChartData: Chart.ChartDataSets[] = [
+  public countrylineChartLegend = true;
+  public countrylineChartType = 'line';
+  public countryinlinePlugin: any;
+  public countryglobalDataChart: any;
+
+  // Bar chart global data for selected date range
+  public barChartData: Chart.ChartDataSets[] = [
     {
       label: 'Cases',
       fill: false,
@@ -253,21 +249,21 @@ export class ReportsComponent implements OnInit {
       data: [0],
     }
   ];
-  barChartLabels: Array<any> = ['0'];
-  barChartOptions: any = {
+  public barChartLabels: Array<any> = ['0'];
+  public barChartOptions: any = {
     responsive: true
   };
-  barChartLegend = true;
-  barChartType = 'bar';
-  barInlinePlugin: any;
-  barglobalDataChart: any;
+  public barChartLegend = true;
+  public barChartType = 'bar';
+  public barInlinePlugin: any;
+  public barglobalDataChart: any;
 
-
-  todayPieChartOptions: Chart.ChartOptions = {
+  // Pie chart global data for today
+  public todayPieChartOptions: Chart.ChartOptions = {
     responsive: true
   };
-  todayPieChartLabels: any = ['Casses(%)', 'Deaths(%)', 'Recovered(%)'];
-  todayPieChartData = [
+  public todayPieChartLabels: any = ['Casses(%)', 'Deaths(%)', 'Recovered(%)'];
+  public todayPieChartData = [
     {
       fill: false,
       backgroundColor: 'rgba(75,192,192,0.4)',
@@ -283,21 +279,22 @@ export class ReportsComponent implements OnInit {
       data: [100, 0, 0],
     }
   ]
-  todayPieChartType = 'pie';
-  todayPieChartLegend = true;
-  todayPieChartPlugin: any;
-  todayPieGlobalDataChart: any;
-  todayPieChartColors = [
+  public todayPieChartType = 'pie';
+  public todayPieChartLegend = true;
+  public todayPieChartPlugin: any;
+  public todayPieGlobalDataChart: any;
+  public todayPieChartColors = [
     {
       backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
     },
   ];
 
-  pieChartOptions: Chart.ChartOptions = {
+  // Pie chart global data for selected Date
+  public pieChartOptions: Chart.ChartOptions = {
     responsive: true
   };
-  pieChartLabels: any = ['Casses(%)', 'Deaths(%)', 'Recovered(%)'];
-  pieChartData = [
+  public pieChartLabels: any = ['Casses(%)', 'Deaths(%)', 'Recovered(%)'];
+  public pieChartData = [
     {
       label: '',
       fill: false,
@@ -314,111 +311,29 @@ export class ReportsComponent implements OnInit {
       data: [50, 40, 10],
     }
   ]
-  pieChartType = 'pie';
-  pieChartLegend = true;
-  pieChartPlugin: any;
-  pieGlobalDataChart: any;
-  pieChartColors = [
+  public pieChartType = 'pie';
+  public pieChartLegend = true;
+  public pieChartPlugin: any;
+  public pieGlobalDataChart: any;
+  public pieChartColors = [
     {
       backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
     },
   ];
 
+  constructor(@Inject(DOCUMENT) private document: Document, private globalService: GlobalService, private nService: NotificationsService, private formbuilder: FormBuilder, private ngChartjsService: NgChartjsService, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+    this.form = this.formbuilder.group({
+      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
+    });
+    this.fromDate = calendar.getToday();
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+  }
+
   ngOnInit() {
     this.onSearch();
     this.getTodayData();
     this.getCountriesData();
-    this.globalDataChart = [{
-      id: 'globalChartData',
-      beforeDraw(chart: any): any {
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        const text = '';//'Covid 19 - Global Data';
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }];
-    this.countryglobalDataChart = [{
-      id: 'countryGlobalChartData',
-      beforeDraw(chart: any): any {
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        const text = '';//'Covid 19 - Global Data';
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }];
-    this.barglobalDataChart = [{
-      id: 'globalChartData2',
-      beforeDraw(chart: any): any {
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        const text = '';
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }];
-    this.todayPieGlobalDataChart = [{
-      id: 'todayglobalChartData',
-      beforeDraw(chart: any): any {
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        const text = '';
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }];
-    this.pieGlobalDataChart = [{
-      id: 'globalChartDatadate',
-      beforeDraw(chart: any): any {
-        const width = chart.chart.width;
-        const height = chart.chart.height;
-        const ctx = chart.chart.ctx;
-        ctx.restore();
-        const fontSize = (height / 114).toFixed(2);
-        ctx.font = `${fontSize}em sans-serif`;
-        ctx.textBaseline = 'middle';
-        const text = '';
-        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-        const textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }];
-    this.inlinePlugin = this.globalDataChart;
-    this.countryinlinePlugin = this.countryglobalDataChart;
-    this.barInlinePlugin = this.barglobalDataChart;
-    this.todayPieChartPlugin = this.todayPieGlobalDataChart;
-    this.pieChartPlugin = this.pieGlobalDataChart;
-
+    this.initCharts();
   }
   public savePDF(chrtId: string) {
     let canvas: any = this.document.getElementById(chrtId);
@@ -569,24 +484,24 @@ export class ReportsComponent implements OnInit {
   }
   public selectChange(args: string) {
     this.selectedCountry = args;
-    if (this.fromDate && this.toDate){
+    if (this.fromDate && this.toDate) {
       this.isFirstLoad = false;
-      let d = new Date(this.fromDate.year, (this.fromDate.month-1), this.fromDate.day);
+      let d = new Date(this.fromDate.year, (this.fromDate.month - 1), this.fromDate.day);
       d.setHours(0);
       d.setMinutes(0);
-      let d2 = new Date(this.toDate.year, (this.toDate.month-1), this.toDate.day);
+      let d2 = new Date(this.toDate.year, (this.toDate.month - 1), this.toDate.day);
       d2.setHours(23);
       d2.setMinutes(59);
       let sdate = getDateFormatted(d);
       let edate = getDateFormatted(d2);
       let filter = { startdate: sdate, enddate: edate, country: this.selectedCountry };
       this.getCountryInfo(filter);
-    }else{
+    } else {
       this.nService.pushAlert({ type: 'warning', message: "Please, select valid DateTime range" });
 
     }
   }
-  onDateSelectionRange(date: NgbDate) {
+  public onDateSelectionRange(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
@@ -596,10 +511,10 @@ export class ReportsComponent implements OnInit {
       this.fromDate = date;
     }
     if (this.fromDate && this.toDate) {
-      let d = new Date(this.fromDate.year, (this.fromDate.month-1), this.fromDate.day);
+      let d = new Date(this.fromDate.year, (this.fromDate.month - 1), this.fromDate.day);
       d.setHours(0);
       d.setMinutes(0);
-      let d2 = new Date(this.toDate.year, (this.toDate.month-1), this.toDate.day);
+      let d2 = new Date(this.toDate.year, (this.toDate.month - 1), this.toDate.day);
       d2.setHours(23);
       d2.setMinutes(59);
       let sdate = getDateFormatted(d);
@@ -609,19 +524,19 @@ export class ReportsComponent implements OnInit {
     }
   }
 
-  isHovered(date: NgbDate) {
+  public isHovered(date: NgbDate) {
     return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
   }
 
-  isInside(date: NgbDate) {
+  public isInside(date: NgbDate) {
     return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
   }
 
-  isRange(date: NgbDate) {
+  public isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
   }
 
-  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+  public validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
     const parsed = this.formatter.parse(input);
     return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
   }
@@ -678,6 +593,99 @@ export class ReportsComponent implements OnInit {
 
     }, (e) => { console.log("ERROR: ", e.status); });
 
+  }
+
+  public initCharts(){
+    this.globalDataChart = [{
+      id: 'globalChartData',
+      beforeDraw(chart: any): any {
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        const text = '';//'Covid 19 - Global Data';
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }];
+    this.countryglobalDataChart = [{
+      id: 'countryGlobalChartData',
+      beforeDraw(chart: any): any {
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        const text = '';//'Covid 19 - Global Data';
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }];
+    this.barglobalDataChart = [{
+      id: 'globalChartData2',
+      beforeDraw(chart: any): any {
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        const text = '';
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }];
+    this.todayPieGlobalDataChart = [{
+      id: 'todayglobalChartData',
+      beforeDraw(chart: any): any {
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        const text = '';
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }];
+    this.pieGlobalDataChart = [{
+      id: 'globalChartDatadate',
+      beforeDraw(chart: any): any {
+        const width = chart.chart.width;
+        const height = chart.chart.height;
+        const ctx = chart.chart.ctx;
+        ctx.restore();
+        const fontSize = (height / 114).toFixed(2);
+        ctx.font = `${fontSize}em sans-serif`;
+        ctx.textBaseline = 'middle';
+        const text = '';
+        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+        const textY = height / 2;
+        ctx.fillText(text, textX, textY);
+        ctx.save();
+      }
+    }];
+    this.inlinePlugin = this.globalDataChart;
+    this.countryinlinePlugin = this.countryglobalDataChart;
+    this.barInlinePlugin = this.barglobalDataChart;
+    this.todayPieChartPlugin = this.todayPieGlobalDataChart;
+    this.pieChartPlugin = this.pieGlobalDataChart;
   }
 
 }
