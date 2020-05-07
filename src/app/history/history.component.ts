@@ -15,8 +15,8 @@ import { NotificationsService } from '../notifications.service';
 })
 export class HistoryComponent implements OnInit {
   public items: Array<any> = []
-  public countries: Array<CountryData>=[]
-  public displayData$: Observable<any[]>
+  public countries: Array<CountryData>=[];
+  public displayData$: Observable<any[]>;
   public sorttype: string = "asc";
   public selectedS: string = "datetime";
   public filter = new FormControl('');
@@ -62,21 +62,21 @@ export class HistoryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   
   }
   public savePDF(type:string) {
     switch (type) {
       case "global":
-        let gfilename  = "global_data"+new Date().getTime()+".pdf"
+        let gfilename  = "global_data"+new Date().getTime()+".pdf";
         saveToPDF("#myTableElementId", "Global Data", gfilename,'p', 'a4');
         break;
       case "country":
-        const ctfilename = this.selectedCountry + "_data" + new Date().getTime() + ".pdf"
+        const ctfilename = this.selectedCountry + "_data" + new Date().getTime() + ".pdf";
         saveToPDF("#contriesTableElementId", this.selectedCountry, ctfilename,'landscape', 'a3');
         break;
       case "countries":
-        const cfilename = "all_countries_data" + "_data" + new Date().getTime() + ".pdf"
+        const cfilename = "all_countries_data" + "_data" + new Date().getTime() + ".pdf";
         saveToPDF("#contriesTableElementId", "All countries data", cfilename, 'landscape', 'a3');
         break;
     
@@ -201,7 +201,7 @@ export class HistoryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
 
   public getGlobalData(flt:any): void {
@@ -233,6 +233,6 @@ export class HistoryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
 }

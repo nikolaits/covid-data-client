@@ -10,8 +10,8 @@ import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare } from
 })
 export class CountryComponent implements OnInit {
 
-  public items: Array<CountryData> = []
-  public countries: Array<CountryData>=[]
+  public items: Array<CountryData> = [];
+  public countries: Array<CountryData>=[];
   public country: string = "USA";
   public sorttype: string = "desc";
   public selectedS:string = "cases"
@@ -39,10 +39,10 @@ export class CountryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
   public savePDF() {
-    const filename = this.country + "_data" + new Date().getTime() + ".pdf"
+    const filename = this.country + "_data" + new Date().getTime() + ".pdf";
     saveToPDF("#contryTableElementId", this.country, filename,'landscape', 'a3');
   }
   public getForceData() {
@@ -66,7 +66,7 @@ export class CountryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
   public sortBy(args){
     this.selectedS = args;
@@ -99,6 +99,6 @@ export class CountryComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
 }

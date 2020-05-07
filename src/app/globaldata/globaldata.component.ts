@@ -34,10 +34,10 @@ export class GlobaldataComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
   public savePDF(){ 
-    const filename  = "global_data"+new Date().getTime()+".pdf"
+    const filename  = "global_data"+new Date().getTime()+".pdf";
     saveToPDF("#myTableElementId", "Global Data", filename,'p', 'a4');
   }
   public getForceData(){
@@ -59,6 +59,6 @@ export class GlobaldataComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
 }

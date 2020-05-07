@@ -32,7 +32,7 @@ export function getDateFormatted(date: Date) {
   let dString = (date.getDate()) > 9 ? date.getDate() : ("0" + (date.getDate()));
   let hString = (date.getHours()) > 9 ? date.getHours() : ("0" + (date.getHours()));
   let mntString = (date.getMinutes()) > 9 ? date.getMinutes() : ("0" + (date.getMinutes()));
-  let result = date.getFullYear() + "-" + mString + "-" + dString + " " + hString + ":" + mntString;
+  let result = `${date.getFullYear()}-${mString}-${dString} ${hString}:${mntString}`;
 
   return result;
 }

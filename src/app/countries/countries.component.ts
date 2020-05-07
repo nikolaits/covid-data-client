@@ -13,8 +13,8 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class CountriesComponent implements OnInit {
 
-  public items: Array<CountryData> = []
-  public countries$: Observable<CountryData[]>
+  public items: Array<CountryData> = [];
+  public countries$: Observable<CountryData[]>;
   public sorttype: string = "asc";
   public selectedS: string = "country";
   public filter = new FormControl('');
@@ -53,10 +53,10 @@ export class CountriesComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
   public savePDF() {
-    const filename = "all_countries_data" + "_data" + new Date().getTime() + ".pdf"
+    const filename = "all_countries_data" + "_data" + new Date().getTime() + ".pdf";
     saveToPDF("#contriesTableElementId", "All countries data", filename, 'landscape', 'a3');
   }
   public getForceData() {
@@ -73,7 +73,6 @@ export class CountriesComponent implements OnInit {
       if (data.status === 200) {
         this.items = [];
         if (data.body) {
-          let arrayResult = data.body;
           this.items = data.body.filter((obj: CountryData) => {
             return obj.country !== 'World';
           });
@@ -82,7 +81,7 @@ export class CountriesComponent implements OnInit {
         }
       }
 
-    }, (e) => { console.log("ERROR: ", e.status); });
+    }, e => { console.log("ERROR: ", e.status); });
   }
   public sortBy(args) {
     this.selectedS = args;
