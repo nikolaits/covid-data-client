@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, GlobalData, compare } from '../helper';
+import { getDateFormatted, saveToPDF, GlobalData, compare, globalHeadercells } from '../helper';
 
 
 @Component({
@@ -14,6 +14,8 @@ export class GlobaldataComponent implements OnInit {
   public startDataModel=new Date();
   public closeResult = '';
   public loading=false;
+  public globalheadercells:Array<any> = globalHeadercells;
+
   constructor(private globalService: GlobalService) { }
   
   ngOnInit(): void {

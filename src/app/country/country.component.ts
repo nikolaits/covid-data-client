@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare } from '../helper';
+import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare, countryHeadercells } from '../helper';
 
 
 @Component({
@@ -16,6 +16,7 @@ export class CountryComponent implements OnInit {
   public sorttype: string = "desc";
   public selectedS:string = "cases"
   public loading=false;
+  public headercells:Array<any> = countryHeadercells;
   constructor(private globalService: GlobalService) { }
 
   ngOnInit(): void {

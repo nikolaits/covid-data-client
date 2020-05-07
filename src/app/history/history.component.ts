@@ -2,7 +2,7 @@ import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare } from '../helper';
+import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare, countryHeadercells, globalHeadercells } from '../helper';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NotificationsService } from '../notifications.service';
@@ -30,6 +30,8 @@ export class HistoryComponent implements OnInit {
   public endDate;
   public countryTableShow = false;
   public globalTableShow= false;
+  public headercells:Array<any> = countryHeadercells;
+  public globalheadercells:Array<any> = globalHeadercells;
   constructor(private globalService: GlobalService, private pipe: DecimalPipe, private formbuilder: FormBuilder, private nService:NotificationsService) {
     
   }

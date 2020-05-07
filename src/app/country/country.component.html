@@ -41,37 +41,8 @@
                 <thead>
                     <tr>
                         <th class="pointer" scope="col">#</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'country' ? 'black' : 'white' }"
-                            scope="col">
-                            Country</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'cases' ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy('cases')">Cases</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'todayCases' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('todayCases')">TodayCases</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'deaths' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('deaths')">Deaths</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'todayDeaths' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('todayDeaths')">TodayDeaths</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'recovered' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('recovered')">Recovered</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'active' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('active')">Active</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'critical' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('critical')">Critical</th>
-                        <th class="pointer"
-                            [ngStyle]="{'color':selectedS === 'casesPerOneMillion' ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy('casesPerOneMillion')">CasesPerOneMillion</th>
-                        <th class="pointer"
-                            [ngStyle]="{'color':selectedS === 'deathsPerOneMillion' ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy('deathsPerOneMillion')">DeathsPerOneMillion</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'totalTests' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('totalTests')">TotalTests</th>
-                        <th class="pointer"
-                            [ngStyle]="{'color':selectedS === 'testsPerOneMillion' ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy('testsPerOneMillion')">TestsPerOneMillion</th>
-                        <th class="pointer" [ngStyle]="{'color':selectedS === 'datetime' ? 'black' : 'white' }"
-                            scope="col" (click)="sortBy('datetime')">Date</th>
-
+                        <th *ngFor="let cheader of headercells" class="pointer" [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
+                            (click)="sortBy(cheader.value)">{{cheader.name}}</th>
                     </tr>
                 </thead>
                 <tbody>

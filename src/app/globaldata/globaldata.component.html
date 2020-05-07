@@ -23,22 +23,22 @@
                 <tbody>
                     <tr *ngFor="let item of items; index as i">
                         <td>
-                            <b>Cases:</b>
+                            <b>{{globalheadercells[0].name}}</b>
                             <br/>
                             {{ item.cases | number }}
                         </td>
                         <td>
-                            <b>Deaths:</b>
+                            <b>{{globalheadercells[1].name}}</b>
                             <br/>
                             {{ item.deaths | number }}
                         </td>
                         <td>
-                            <b>Recovered:</b>
+                            <b>{{globalheadercells[2].name}}</b>
                             <br/>
                             {{ item.recovered | number }}
                         </td>
                         <td>
-                            <b>Date:</b>
+                            <b>{{globalheadercells[3].name}}</b>
                             <br/>
                             {{ item.datetime }}
                         </td>
@@ -51,11 +51,7 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Cases</th>
-                            <th scope="col">Deaths</th>
-                            <th scope="col">Recovered</th>
-                            <th scope="col">Date</th>
-
+                            <th *ngFor="let cheader of globalheadercells" scope="col">{{cheader.name}}</th>
                         </tr>
                     </thead>
                     <tbody>

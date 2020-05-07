@@ -2,8 +2,8 @@ import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData, compare } from '../helper';
-import { Observable, of, interval } from 'rxjs';
+import { getDateFormatted, saveToPDF, CountryData, compare, countryHeadercells } from '../helper';
+import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-countries',
@@ -19,6 +19,7 @@ export class CountriesComponent implements OnInit {
   public selectedS: string = "country";
   public filter = new FormControl('');
   public loading=false;
+  public headercells:Array<any> = countryHeadercells;
   constructor(private globalService: GlobalService, private pipe: DecimalPipe) {
     
   }

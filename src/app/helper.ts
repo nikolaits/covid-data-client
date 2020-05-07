@@ -27,6 +27,30 @@ export interface GlobalData {
   recovered: number,
   datetime: string
 }
+
+export const countryHeadercells:Array<any>=[
+  {value:'country',name:'Country'},
+  {value:'cases',name:'Cases'},
+  {value:'todayCases',name:'TodayCases'},
+  {value:'deaths',name:'Deaths'},
+  {value:'todayDeaths',name:'TodayDeaths'},
+  {value:'recovered',name:'Recovered'},
+  {value:'active',name:'Active'},
+  {value:'critical',name:'Critical'},
+  {value:'casesPerOneMillion',name:'CasesPerOneMillion'},
+  {value:'deathsPerOneMillion',name:'DeathsPerOneMillion'},
+  {value:'totalTests',name:'TotalTests'},
+  {value:'testsPerOneMillion',name:'TestsPerOneMillion'},
+  {value:'datetime',name:'Date'},
+];
+
+export const globalHeadercells:Array<any>=[
+  {value:'cases',name:'Cases'},
+  {value:'deaths',name:'Deaths'},
+  {value:'recovered',name:'Recovered'},
+  {value:'datetime',name:'Date'},
+];
+
 export function getDateFormatted(date: Date) {
   let mString = (date.getMonth() + 1) > 9 ? (date.getMonth() + 1) : ("0" + (date.getMonth() + 1));
   let dString = (date.getDate()) > 9 ? date.getDate() : ("0" + (date.getDate()));
