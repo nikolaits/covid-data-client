@@ -1,9 +1,8 @@
 import { isDevMode } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-export let baseURL;
-export const getAddrURL = "https://nominatim.openstreetmap.org/reverse"
-isDevMode ? baseURL="http://localhost:3009" : baseURL="https://www.geit-dev.info/api/covid19";
+export const baseURL="https://www.geit-dev.info/api/covid19";
+export const getAddrURL = "https://nominatim.openstreetmap.org/reverse";
 
 export interface CountryData {
   id: number,
