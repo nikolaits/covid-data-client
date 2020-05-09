@@ -25,6 +25,7 @@ export class CountriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dropDownSelectAction('select');
     this.loading = true;
     let d = new Date();
     d.setHours(d.getHours() - 1);

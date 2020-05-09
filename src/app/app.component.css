@@ -65,3 +65,7 @@
   #navbarNav a{
     font-size: 1.5em;
   }
+
+  .dropdown-menu .container .row button.btn{
+    width: 100%!important;
+  }

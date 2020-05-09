@@ -37,6 +37,8 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dropDownSelectAction('select');
+    this.globalDropDownSelectAction('select');
     this.form = this.formbuilder.group({
       dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
     });

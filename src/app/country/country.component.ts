@@ -20,6 +20,7 @@ export class CountryComponent implements OnInit {
   constructor(private globalService: GlobalService) { }
 
   ngOnInit(): void {
+    this.dropDownSelectAction('select');
     let d = new Date();
     d.setHours(d.getHours()-1);
     d.setMinutes(0);
@@ -65,7 +66,7 @@ export class CountryComponent implements OnInit {
           let arrayResult = data.body;
           arrayResult.sort(compare(this.sorttype, this.selectedS));
           this.items = arrayResult;
-          this.loading = true;
+          this.loading = false;
         }
       }
 
