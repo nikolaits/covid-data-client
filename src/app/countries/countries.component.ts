@@ -18,10 +18,10 @@ export class CountriesComponent implements OnInit {
   public sorttype: string = "asc";
   public selectedS: string = "country";
   public filter = new FormControl('');
-  public loading=false;
-  public headercells:Array<any> = countryHeadercells;
+  public loading = false;
+  public headercells: Array<any> = countryHeadercells;
   constructor(private globalService: GlobalService, private pipe: DecimalPipe) {
-    
+
   }
 
   ngOnInit(): void {
@@ -87,7 +87,7 @@ export class CountriesComponent implements OnInit {
   public sortBy(args) {
     this.selectedS = args;
     this.filter.setValue("");
-    this.sorttype == 'asc'? this.sorttype = 'desc': this.sorttype = 'asc';
+    this.sorttype == 'asc' ? this.sorttype = 'desc' : this.sorttype = 'asc';
     if (args != 'datetime') {
       this.items.sort(compare(this.sorttype, this.selectedS))
       let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort(compare(this.sorttype, this.selectedS))))
@@ -97,7 +97,7 @@ export class CountriesComponent implements OnInit {
       let sorted$: Observable<CountryData[]> = this.countries$.pipe(map(items => items.sort(compare(this.sorttype, this.selectedS))));
       this.countries$ = sorted$;
     }
-    
+
   }
   public search(text: string, pipe: PipeTransform): CountryData[] {
     return this.items.filter(country => {
@@ -115,5 +115,17 @@ export class CountriesComponent implements OnInit {
         || pipe.transform(country.totalTests == null ? 0 : country.totalTests.toString()).includes(term)
         || pipe.transform(country.testsPerOneMillion == null ? 0 : country.testsPerOneMillion.toString()).includes(term);
     });
+  }
+
+  public dropDownSelectAction(args: string) {
+    if (args == 'select') {
+      this.headercells.forEach(item => {
+        item.visibility = true;
+      })
+    } else {
+      this.headercells.forEach(item => {
+        item.visibility = false;
+      })
+    }
   }
 }

@@ -116,7 +116,7 @@
                             </div>
                             <select class="custom-select" id="inputGroupSelect01" #t (change)="selectChange(t.value)">
                                 <option disabled selected>Choose...</option>
-                                <option *ngFor="let country of countries" [value]="country.country">{{country.country}}
+                                <option *ngFor="let country of countries" [value]="country.country" [selected]="country.country == selectedCountry">{{country.country}}
                                 </option>
                             </select>
                         </div>

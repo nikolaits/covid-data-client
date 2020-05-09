@@ -50,49 +50,87 @@
         </form>
     </div>
     <div *ngIf="globalTableShow" class="info_table table-responsive" style="width: 98%; margin-left: 1%;">
-        <div *ngIf="items.length > 0" class="float-right ml-6" style="width: 50%;">
-            <input *ngIf="searchType == 'global'" class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                (click)="savePDF('global')" value="Save as PDF">
-            <div *ngIf="loadingGlobal" class="spinner-border text-dark float-right" role="status">
-                <span class="sr-only">Loading...</span>
+        <div class="container" *ngIf="items.length > 0">
+            <div class="row">
+                <div class="col-sm float-left">
+                    <form *ngIf="items.length > 0">
+                        <div class="form-group form-inline">
+                            <input class="form-control ml-2" type="text" placeholder="Search"
+                                [formControl]="filterGlobal" style="width: 98%; margin-left: 1%; margin-right: 1%;" />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm float-right">
+                    <div *ngIf="items.length > 0" class="float-right">
+                        <input *ngIf="searchType == 'global'" class="btn btn-secondary btn-lg m-2 float-right"
+                            type="button" (click)="savePDF('global')" value="Save as PDF">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownGlobal"
+                                ngbDropdownToggle>Columns' visibility</button>
+                            <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownGlobal"
+                                style="background-color: lightgray;">
+                                <pre class="float-right m-2">Select columns, you want to show/hide.</pre>
+                                <div class="container mb-2">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-left"
+                                                (click)="globalDropDownSelectAction('select')">Select All</button>
+                                        </div>
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right"
+                                                (click)="globalDropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label *ngFor="let gcheader of globalheadercells" class="btn-outline-secondary"
+                                    style="border-radius: 0;" ngbButtonLabel ngbDropdownItem>
+                                    <input class="mr-1" type="checkbox" ngbButton
+                                        [(ngModel)]="gcheader.visibility">{{gcheader.name}}
+                                </label>
+                            </div>
+                        </div>
+                        <div *ngIf="loadingGlobal" class="spinner-border text-dark float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div *ngIf="1 > items.length" class="emptyHeaderContainer">
             <div *ngIf="loadingGlobal" class="spinner-border text-dark float-right" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
             <h2>No Data</h2>
         </div>
-        <form *ngIf="items.length > 0">
-            <div class="form-group form-inline">
-                <input class="form-control ml-2" type="text" placeholder="Search" [formControl]="filterGlobal"
-                    style="width: 98%; margin-left: 1%; margin-right: 1%;" />
-            </div>
-        </form>
+
         <div class="container-fluid">
             <div class="table-responsive">
                 <table *ngIf="items.length > 0" id="myTableElementId" class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th class="pointer" scope="col">#</th>
-                            <th *ngFor="let cheader of globalheadercells" class="pointer" [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                            <ng-container *ngFor="let cheader of globalheadercells">
+                                <th *ngIf="cheader.visibility" class="pointer"
+                                    [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
+                                    (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                            </ng-container>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of displayData$ | async; index as i">
                             <th scope="row">{{ i + 1 }}</th>
-                            <td>
+                            <td *ngIf="globalheadercells[0].visibility">
                                 <ngb-highlight [result]="item.cases | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="globalheadercells[1].visibility">
                                 <ngb-highlight [result]="item.deaths | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="globalheadercells[2].visibility">
                                 <ngb-highlight [result]="item.recovered | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="globalheadercells[3].visibility">
                                 <ngb-highlight [result]="item.datetime " [term]="filter.value"></ngb-highlight>
                             </td>
                         </tr>
@@ -101,14 +139,52 @@
             </div>
         </div>
     </div>
-    <div *ngIf="countryTableShow" class="info_table">
-        <div *ngIf="items.length > 0" class="float-right ml-6" style="width: 50%;">
-            <input *ngIf="searchType == 'country'" class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                (click)="savePDF('country')" value="Save as PDF">
-            <input *ngIf="searchType != 'country'" class="btn btn-secondary btn-lg m-2 float-right" type="button"
-                (click)="savePDF('countries')" value="Save as PDF">
-            <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
-                <span class="sr-only">Loading...</span>
+    <div *ngIf="countryTableShow">
+        <div class="container" *ngIf="items.length > 0">
+            <div class="row">
+                <div class="col-sm float-left">
+                    <form *ngIf="items.length > 0">
+                        <div class="form-group form-inline">
+                            <input class="form-control ml-2" type="text" placeholder="Search" [formControl]="filter" />
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm">
+                    <div class="float-right">
+                        <input *ngIf="searchType == 'country'" class="btn btn-secondary btn-lg m-2 float-right"
+                            type="button" (click)="savePDF('country')" value="Save as PDF">
+                        <input *ngIf="searchType != 'country'" class="btn btn-secondary btn-lg m-2 float-right"
+                            type="button" (click)="savePDF('countries')" value="Save as PDF">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownCountries"
+                                ngbDropdownToggle>Columns' visibility</button>
+                            <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownCountries"
+                                style="background-color: lightgray;">
+                                <pre class="float-right m-2">Select columns, you want to show/hide.</pre>
+                                <div class="container mb-2">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-left"
+                                                (click)="dropDownSelectAction('select')">Select All</button>
+                                        </div>
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right"
+                                                (click)="dropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label *ngFor="let cheader of headercells" class="btn-outline-secondary"
+                                    style="border-radius: 0;" ngbButtonLabel ngbDropdownItem>
+                                    <input class="mr-1" type="checkbox" ngbButton
+                                        [(ngModel)]="cheader.visibility">{{cheader.name}}
+                                </label>
+                            </div>
+                        </div>
+                        <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div *ngIf="1 > items.length" class="emptyHeaderContainer">
@@ -117,68 +193,67 @@
             </div>
             <h2>No Data</h2>
         </div>
-        <form *ngIf="items.length > 0">
-            <div class="form-group form-inline">
-                <input class="form-control ml-2" type="text" placeholder="Search" [formControl]="filter" />
-            </div>
-        </form>
+
         <div class="container-fluid">
             <div class="table-responsive">
                 <table *ngIf="items.length > 0" id="contriesTableElementId" class="table table-striped table-dark">
                     <thead>
                         <tr>
                             <th class="pointer" scope="col">#</th>
-                            <th *ngFor="let cheader of headercells" class="pointer" [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                            <ng-container *ngFor="let cheader of headercells">
+                                <th *ngIf="cheader.visibility" class="pointer"
+                                    [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
+                                    (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                            </ng-container>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of displayData$ | async; index as i">
                             <th scope="row">{{ i + 1 }}</th>
-                            <td>
+                            <td *ngIf="headercells[0].visibility">
                                 <ngb-highlight [result]="item.country " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[1].visibility">
                                 <ngb-highlight [result]="item.cases | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[2].visibility">
                                 <ngb-highlight [result]="item.todayCases | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[3].visibility">
                                 <ngb-highlight [result]="item.deaths | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[4].visibility">
                                 <ngb-highlight [result]="item.todayDeaths | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[5].visibility">
                                 <ngb-highlight [result]="item.recovered | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[6].visibility">
                                 <ngb-highlight [result]="item.active | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[7].visibility">
                                 <ngb-highlight [result]="item.critical | number " [term]="filter.value"></ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[8].visibility">
                                 <ngb-highlight [result]="item.casesPerOneMillion | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[9].visibility">
                                 <ngb-highlight [result]="item.deathsPerOneMillion | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[10].visibility">
                                 <ngb-highlight [result]="item.totalTests | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[11].visibility">
                                 <ngb-highlight [result]="item.testsPerOneMillion | number " [term]="filter.value">
                                 </ngb-highlight>
                             </td>
-                            <td>
+                            <td *ngIf="headercells[12].visibility">
                                 <ngb-highlight [result]="item.datetime " [term]="filter.value"></ngb-highlight>
                             </td>
                         </tr>

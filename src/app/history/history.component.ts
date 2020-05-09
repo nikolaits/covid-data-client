@@ -15,73 +15,73 @@ import { NotificationsService } from '../notifications.service';
 })
 export class HistoryComponent implements OnInit {
   public items: Array<any> = []
-  public countries: Array<CountryData>=[];
+  public countries: Array<CountryData> = [];
   public displayData$: Observable<any[]>;
   public sorttype: string = "asc";
   public selectedS: string = "datetime";
   public filter = new FormControl('');
   public filterGlobal = new FormControl('');
   public form: FormGroup;
-  public loading=false;
-  public loadingGlobal=false;
-  public selectedCountry="";
-  public searchType="";
-  public startDate= new Date(2020, 4, 20, 0, 0);
+  public loading = false;
+  public loadingGlobal = false;
+  public selectedCountry = "";
+  public searchType = "";
+  public startDate = new Date(2020, 4, 20, 0, 0);
   public endDate;
   public countryTableShow = false;
-  public globalTableShow= false;
-  public headercells:Array<any> = countryHeadercells;
-  public globalheadercells:Array<any> = globalHeadercells;
-  constructor(private globalService: GlobalService, private pipe: DecimalPipe, private formbuilder: FormBuilder, private nService:NotificationsService) {
-    
+  public globalTableShow = false;
+  public headercells: Array<any> = countryHeadercells;
+  public globalheadercells: Array<any> = globalHeadercells;
+  constructor(private globalService: GlobalService, private pipe: DecimalPipe, private formbuilder: FormBuilder, private nService: NotificationsService) {
+
   }
 
   ngOnInit(): void {
     this.form = this.formbuilder.group({
-      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),      
+      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
     });
     let endd = new Date();
     endd.setHours(23);
     endd.setMinutes(59);
     this.endDate = endd;
     let d = new Date();
-    d.setHours(d.getHours()-1);
+    d.setHours(d.getHours() - 1);
     d.setMinutes(0);
     let d2 = new Date();
     d2.setHours(23);
     d2.setMinutes(59);
     let sdate = getDateFormatted(d);
     let edate = getDateFormatted(d2);
-    this.globalService.getCountriesData({ startdate: sdate, enddate: edate}).subscribe((data: any) => {
+    this.globalService.getCountriesData({ startdate: sdate, enddate: edate }).subscribe((data: any) => {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
           arrayResult.sort(compare("asc", "country"));
           const result = arrayResult.reduce(reduceCompare("country"), []);
-          this.countries = result.filter(( obj:CountryData ) =>{
+          this.countries = result.filter((obj: CountryData) => {
             return obj.country !== 'World';
           });
         }
       }
 
     }, e => { console.log("ERROR: ", e.status); });
-  
+
   }
-  public savePDF(type:string) {
+  public savePDF(type: string) {
     switch (type) {
       case "global":
-        let gfilename  = "global_data"+new Date().getTime()+".pdf";
-        saveToPDF("#myTableElementId", "Global Data", gfilename,'p', 'a4');
+        let gfilename = "global_data" + new Date().getTime() + ".pdf";
+        saveToPDF("#myTableElementId", "Global Data", gfilename, 'p', 'a4');
         break;
       case "country":
         const ctfilename = this.selectedCountry + "_data" + new Date().getTime() + ".pdf";
-        saveToPDF("#contriesTableElementId", this.selectedCountry, ctfilename,'landscape', 'a3');
+        saveToPDF("#contriesTableElementId", this.selectedCountry, ctfilename, 'landscape', 'a3');
         break;
       case "countries":
         const cfilename = "all_countries_data" + "_data" + new Date().getTime() + ".pdf";
         saveToPDF("#contriesTableElementId", "All countries data", cfilename, 'landscape', 'a3');
         break;
-    
+
       default:
         break;
     }
@@ -99,7 +99,7 @@ export class HistoryComponent implements OnInit {
       let sorted$: Observable<any[]> = this.displayData$.pipe(map(items => items.sort(compare(this.sorttype, this.selectedS))));
       this.displayData$ = sorted$;
     }
-    
+
   }
   public search(text: string, pipe: PipeTransform): CountryData[] {
     return this.items.filter(country => {
@@ -125,67 +125,67 @@ export class HistoryComponent implements OnInit {
         || pipe.transform(obj.cases).includes(term)
         || pipe.transform(obj.deaths).includes(term)
         || pipe.transform(obj.recovered).includes(term)
-      });
+    });
   }
-  selectSearch(args:string){
+  selectSearch(args: string) {
     this.searchType = args;
-    this.items= [];
+    this.items = [];
     this.sorttype = "asc";
     this.selectedS = "datetime";
     this.filter.setValue("");
     this.filterGlobal.setValue("")
-    this.loading=false;
-    this.loadingGlobal=false;
-    this.selectedCountry="";
-    if(this.searchType != "global"){
+    this.loading = false;
+    this.loadingGlobal = false;
+    this.selectedCountry = "";
+    if (this.searchType != "global") {
       this.countryTableShow = true;
       this.globalTableShow = false;
-    } else{
+    } else {
       this.globalTableShow = true;
       this.countryTableShow = false;
     }
   }
-  public selectChange(args:string){
+  public selectChange(args: string) {
     this.selectedCountry = args
   }
-  public onSearch(){
+  public onSearch() {
     let isValid = true;
-    if((this.searchType=='country') &&(this.selectedCountry=="")){
-      this.nService.pushAlert({type:'warning', message:"Please, select country"});
+    if ((this.searchType == 'country') && (this.selectedCountry == "")) {
+      this.nService.pushAlert({ type: 'warning', message: "Please, select country" });
       isValid = false;
     }
     let fvalues = this.form.controls["dateRange"].value;
-    if((fvalues[0] == null) || (fvalues[0] == null)){
-      this.nService.pushAlert({type:'warning', message:"Please, select valid DateTime range"});
+    if ((fvalues[0] == null) || (fvalues[0] == null)) {
+      this.nService.pushAlert({ type: 'warning', message: "Please, select valid DateTime range" });
       isValid = false;
     }
-    if(isValid){
+    if (isValid) {
       let sDate = new Date(fvalues[0]);
       let eDate = new Date(fvalues[1]);
       let fsDate = getDateFormatted(sDate);
       let feDate = getDateFormatted(eDate);
       let filter = { startdate: fsDate, enddate: feDate };
-      if((this.searchType=='country') &&(this.selectedCountry != "")){
+      if ((this.searchType == 'country') && (this.selectedCountry != "")) {
         filter['country'] = this.selectedCountry;
       }
-      if(this.searchType != "global"){
+      if (this.searchType != "global") {
         this.getCountriesDate(filter);
-      } else{
+      } else {
         this.getGlobalData(filter);
       }
 
     }
-    this.items= [];
+    this.items = [];
     this.sorttype = "dec";
     this.selectedS = "datetime";
     this.filter.setValue("");
     this.filterGlobal.setValue("")
-    this.loading=false;
-    this.loadingGlobal=false;
+    this.loading = false;
+    this.loadingGlobal = false;
   }
-  public getCountriesDate(flt:any): void {
+  public getCountriesDate(flt: any): void {
     this.loading = true;
-    
+
     this.globalService.getCountriesData(flt).subscribe((data: any) => {
       if (data.status === 200) {
         if (data.body) {
@@ -206,7 +206,7 @@ export class HistoryComponent implements OnInit {
     }, e => { console.log("ERROR: ", e.status); });
   }
 
-  public getGlobalData(flt:any): void {
+  public getGlobalData(flt: any): void {
     this.loadingGlobal = true;
     this.globalService.getGlobalData(flt).subscribe((data: any) => {
       if (data.status === 200) {
@@ -236,5 +236,28 @@ export class HistoryComponent implements OnInit {
       }
 
     }, e => { console.log("ERROR: ", e.status); });
+  }
+
+  public dropDownSelectAction(args: string) {
+    if (args == 'select') {
+      this.headercells.forEach(item => {
+        item.visibility = true;
+      })
+    } else {
+      this.headercells.forEach(item => {
+        item.visibility = false;
+      })
+    }
+  }
+  public globalDropDownSelectAction(args: string) {
+    if (args == 'select') {
+      this.globalheadercells.forEach(item => {
+        item.visibility = true;
+      })
+    } else {
+      this.globalheadercells.forEach(item => {
+        item.visibility = false;
+      })
+    }
   }
 }

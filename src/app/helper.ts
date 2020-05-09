@@ -1,7 +1,9 @@
+import { isDevMode } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
-// export const baseURL = "http://localhost:3009";
-export const baseURL = "https://www.geit-dev.info/api/covid19"
+export let baseURL;
+export const getAddrURL = "https://nominatim.openstreetmap.org/reverse"
+isDevMode ? baseURL="http://localhost:3009" : baseURL="https://www.geit-dev.info/api/covid19";
 
 export interface CountryData {
   id: number,
@@ -29,26 +31,26 @@ export interface GlobalData {
 }
 
 export const countryHeadercells:Array<any>=[
-  {value:'country',name:'Country'},
-  {value:'cases',name:'Cases'},
-  {value:'todayCases',name:'TodayCases'},
-  {value:'deaths',name:'Deaths'},
-  {value:'todayDeaths',name:'TodayDeaths'},
-  {value:'recovered',name:'Recovered'},
-  {value:'active',name:'Active'},
-  {value:'critical',name:'Critical'},
-  {value:'casesPerOneMillion',name:'CasesPerOneMillion'},
-  {value:'deathsPerOneMillion',name:'DeathsPerOneMillion'},
-  {value:'totalTests',name:'TotalTests'},
-  {value:'testsPerOneMillion',name:'TestsPerOneMillion'},
-  {value:'datetime',name:'Date'},
+  {value:'country',name:'Country', visibility:true},
+  {value:'cases',name:'Cases', visibility:true},
+  {value:'todayCases',name:'TodayCases', visibility:true},
+  {value:'deaths',name:'Deaths', visibility:true},
+  {value:'todayDeaths',name:'TodayDeaths', visibility:true},
+  {value:'recovered',name:'Recovered', visibility:true},
+  {value:'active',name:'Active', visibility:true},
+  {value:'critical',name:'Critical', visibility:true},
+  {value:'casesPerOneMillion',name:'CasesPerOneMillion', visibility:true},
+  {value:'deathsPerOneMillion',name:'DeathsPerOneMillion', visibility:true},
+  {value:'totalTests',name:'TotalTests', visibility:true},
+  {value:'testsPerOneMillion',name:'TestsPerOneMillion', visibility:true},
+  {value:'datetime',name:'Date', visibility:true},
 ];
 
 export const globalHeadercells:Array<any>=[
-  {value:'cases',name:'Cases'},
-  {value:'deaths',name:'Deaths'},
-  {value:'recovered',name:'Recovered'},
-  {value:'datetime',name:'Date'},
+  {value:'cases',name:'Cases', visibility:true},
+  {value:'deaths',name:'Deaths', visibility:true},
+  {value:'recovered',name:'Recovered', visibility:true},
+  {value:'datetime',name:'Date', visibility:true},
 ];
 
 export function getDateFormatted(date: Date) {

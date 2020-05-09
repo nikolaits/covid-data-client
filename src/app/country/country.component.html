@@ -15,52 +15,83 @@
                         </div>
                         <select class="custom-select" id="inputGroupSelect01" #t (change)="selectChange(t.value)">
                             <option disabled selected>Choose...</option>
-                            <option *ngFor="let country of countries" [value]="country.country">{{country.country}}
+                            <option *ngFor="let country of countries" [value]="country.country"
+                                [selected]="country.country == slectedCountry">{{country.country}}
                             </option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm">
+                <div *ngIf="items.length > 0" class="col-sm">
                     <div class="float-right">
                         <input class="btn btn-secondary btn-lg m-2 float-right" type="button" (click)="getForceData()"
                             value="Refresh">
                         <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button"
                             (click)="savePDF()" value="Save as PDF">
+                        <div ngbDropdown class="d-inline-block">
+                            <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownCountries"
+                                ngbDropdownToggle>Columns' visibility</button>
+                            <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownCountries"
+                                style="background-color: lightgray;">
+                                <pre class="float-right m-2">Select columns, you want to show/hide.</pre>
+                                <div class="container mb-2">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-left"
+                                                (click)="dropDownSelectAction('select')">Select All</button>
+                                        </div>
+                                        <div class="col-sm">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right"
+                                                (click)="dropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label *ngFor="let cheader of headercells" class="btn-outline-secondary"
+                                    style="border-radius: 0;" ngbButtonLabel ngbDropdownItem>
+                                    <input class="mr-1" type="checkbox" ngbButton
+                                        [(ngModel)]="cheader.visibility">{{cheader.name}}
+                                </label>
+                            </div>
+                        </div>
                         <div *ngIf="loading" class="spinner-border text-dark float-right" role="status">
                             <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
+
         <div *ngIf="1 > items.length" class="emptyHeaderContainer">
             <h2>No Data found</h2>
         </div>
-        <div class="table-responsive">
-            <table *ngIf="items.length > 0" id="contryTableElementId" class="table table-striped table-dark">
+        <div *ngIf="items.length > 0" class="table-responsive">
+            <table id="contryTableElementId" class="table table-striped table-dark">
                 <thead>
                     <tr>
                         <th class="pointer" scope="col">#</th>
-                        <th *ngFor="let cheader of headercells" class="pointer" [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
-                            (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                        <ng-container *ngFor="let cheader of headercells">
+                            <th *ngIf="cheader.visibility" class="pointer"
+                                [ngStyle]="{'color':selectedS === cheader.value ? 'black' : 'white' }" scope="col"
+                                (click)="sortBy(cheader.value)">{{cheader.name}}</th>
+                        </ng-container>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of items; index as i">
                         <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ item.country }}</td>
-                        <td>{{ item.cases | number }}</td>
-                        <td>{{ item.todayCases | number }}</td>
-                        <td>{{ item.deaths | number }}</td>
-                        <td>{{ item.todayDeaths | number }}</td>
-                        <td>{{ item.recovered | number }}</td>
-                        <td>{{ item.active | number }}</td>
-                        <td>{{ item.critical | number }}</td>
-                        <td>{{ item.casesPerOneMillion | number }}</td>
-                        <td>{{ item.deathsPerOneMillion | number }}</td>
-                        <td>{{ item.totalTests | number }}</td>
-                        <td>{{ item.testsPerOneMillion | number }}</td>
-                        <td>{{ item.datetime  }}</td>
+                        <td *ngIf="headercells[0].visibility">{{ item.country }}</td>
+                        <td *ngIf="headercells[1].visibility">{{ item.cases | number }}</td>
+                        <td *ngIf="headercells[2].visibility">{{ item.todayCases | number }}</td>
+                        <td *ngIf="headercells[3].visibility">{{ item.deaths | number }}</td>
+                        <td *ngIf="headercells[4].visibility">{{ item.todayDeaths | number }}</td>
+                        <td *ngIf="headercells[5].visibility">{{ item.recovered | number }}</td>
+                        <td *ngIf="headercells[6].visibility">{{ item.active | number }}</td>
+                        <td *ngIf="headercells[7].visibility">{{ item.critical | number }}</td>
+                        <td *ngIf="headercells[8].visibility">{{ item.casesPerOneMillion | number }}</td>
+                        <td *ngIf="headercells[9].visibility">{{ item.deathsPerOneMillion | number }}</td>
+                        <td *ngIf="headercells[10].visibility">{{ item.totalTests | number }}</td>
+                        <td *ngIf="headercells[11].visibility">{{ item.testsPerOneMillion | number }}</td>
+                        <td *ngIf="headercells[12].visibility">{{ item.datetime  }}</td>
                     </tr>
                 </tbody>
             </table>

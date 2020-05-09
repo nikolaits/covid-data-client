@@ -12,7 +12,7 @@ export class CountryComponent implements OnInit {
 
   public items: Array<CountryData> = [];
   public countries: Array<CountryData>=[];
-  public country: string = "USA";
+  public slectedCountry: string = "";
   public sorttype: string = "desc";
   public selectedS:string = "cases"
   public loading=false;
@@ -37,14 +37,16 @@ export class CountryComponent implements OnInit {
           this.countries = result.filter(( obj:CountryData ) =>{
             return obj.country !== 'World';
           });
+          this.getLocation();
+          
         }
       }
 
     }, e => { console.log("ERROR: ", e.status); });
   }
   public savePDF() {
-    const filename = this.country + "_data" + new Date().getTime() + ".pdf";
-    saveToPDF("#contryTableElementId", this.country, filename,'landscape', 'a3');
+    const filename = this.slectedCountry + "_data" + new Date().getTime() + ".pdf";
+    saveToPDF("#contryTableElementId", this.slectedCountry, filename,'landscape', 'a3');
   }
   public getForceData() {
     this.loading = true;
@@ -56,7 +58,7 @@ export class CountryComponent implements OnInit {
     d2.setMinutes(59);
     let sdate = getDateFormatted(d);
     let edate = getDateFormatted(d2);
-    this.globalService.getCountryDataForce({ startdate: sdate, enddate: edate, country:this.country }).subscribe((data: any) => {
+    this.globalService.getCountryDataForce({ startdate: sdate, enddate: edate, country:this.slectedCountry }).subscribe((data: any) => {
       if (data.status === 200) {
         this.items = [];
         if (data.body) {
@@ -81,7 +83,7 @@ export class CountryComponent implements OnInit {
   }
   public selectChange(args:string){
     this.loading = true;
-    this.country = args;
+    this.slectedCountry = args;
     let d = new Date();
     d.setHours(0);
     d.setMinutes(0);
@@ -90,7 +92,7 @@ export class CountryComponent implements OnInit {
     d2.setMinutes(59);
     let sdate = getDateFormatted(d);
     let edate = getDateFormatted(d2);
-    this.globalService.getCountryData({ startdate: sdate, enddate: edate, country:this.country }).subscribe((data: any) => {
+    this.globalService.getCountryData({ startdate: sdate, enddate: edate, country:this.slectedCountry }).subscribe((data: any) => {
       if (data.status === 200) {
         if (data.body) {
           let arrayResult = data.body;
@@ -101,5 +103,33 @@ export class CountryComponent implements OnInit {
       }
 
     }, e => { console.log("ERROR: ", e.status); });
+  }
+
+  public getLocation(){
+    this.globalService.getLocation()
+    .then( r =>{
+      this.globalService.getCountryName(r.latitude, r.longitude)
+      .subscribe((data: any) => {
+        const elem = this.countries.filter(item => item.country === data.body.address.country);
+        if(elem.length > 0) this.selectChange(data.body.address.country);
+      }, err => { 
+        console.log("ERROR: ", err.status); 
+      })
+    })
+    .catch(e=>{
+      console.log("ERROR", e)
+    })
+  }
+
+  public dropDownSelectAction(args: string) {
+    if (args == 'select') {
+      this.headercells.forEach(item => {
+        item.visibility = true;
+      })
+    } else {
+      this.headercells.forEach(item => {
+        item.visibility = false;
+      })
+    }
   }
 }

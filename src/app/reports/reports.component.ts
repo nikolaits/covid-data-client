@@ -334,6 +334,7 @@ export class ReportsComponent implements OnInit {
     this.getTodayData();
     this.getCountriesData();
     this.initCharts();
+    this.getLocation();
   }
   public savePDF(chrtId: string) {
     let canvas: any = this.document.getElementById(chrtId);
@@ -595,7 +596,7 @@ export class ReportsComponent implements OnInit {
 
   }
 
-  public initCharts(){
+  public initCharts() {
     this.globalDataChart = [{
       id: 'globalChartData',
       beforeDraw(chart: any): any {
@@ -686,6 +687,22 @@ export class ReportsComponent implements OnInit {
     this.barInlinePlugin = this.barglobalDataChart;
     this.todayPieChartPlugin = this.todayPieGlobalDataChart;
     this.pieChartPlugin = this.pieGlobalDataChart;
+  }
+
+  public getLocation() {
+    this.globalService.getLocation()
+      .then(r => {
+        this.globalService.getCountryName(r.latitude, r.longitude)
+          .subscribe((data: any) => {
+            const elem = this.countries.filter(item => item.country === data.body.address.country)
+            if (elem.length > 0) this.selectChange(data.body.address.country);
+          }, (err) => {
+            console.log("ERROR: ", err.status);
+          })
+      })
+      .catch(e => {
+        console.log("ERROR", e)
+      })
   }
 
 }
