@@ -64,7 +64,7 @@
                     <div *ngIf="items.length > 0" class="float-right">
                         <input *ngIf="searchType == 'global'" class="btn btn-secondary btn-lg m-2 float-right"
                             type="button" (click)="savePDF('global')" value="Save as PDF">
-                        <div ngbDropdown class="d-inline-block">
+                        <div ngbDropdown #gdd="ngbDropdown" class="d-inline-block">
                             <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownGlobal"
                                 ngbDropdownToggle>Columns' visibility</button>
                             <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownGlobal"
@@ -79,6 +79,10 @@
                                         <div class="col-sm p-2">
                                             <button type="button" class="btn btn-secondary btn-sm float-right btn-block"
                                                 (click)="globalDropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                        <div class="col-sm p-2">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right  btn-block"
+                                                (click)="saveSetup('globalHeaderCells', gdd)">Save setup</button>
                                         </div>
                                     </div>
                                 </div>
@@ -155,7 +159,7 @@
                             type="button" (click)="savePDF('country')" value="Save as PDF">
                         <input *ngIf="searchType != 'country'" class="btn btn-secondary btn-lg m-2 float-right"
                             type="button" (click)="savePDF('countries')" value="Save as PDF">
-                        <div ngbDropdown class="d-inline-block">
+                        <div ngbDropdown #dd="ngbDropdown" class="d-inline-block">
                             <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownCountries"
                                 ngbDropdownToggle>Columns' visibility</button>
                             <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownCountries"
@@ -170,6 +174,10 @@
                                         <div class="col-sm p-2">
                                             <button type="button" class="btn btn-secondary btn-sm float-right btn-block"
                                                 (click)="dropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                        <div class="col-sm p-2">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right  btn-block"
+                                                (click)="saveSetup('countriesHeaderCells', dd)">Save setup</button>
                                         </div>
                                     </div>
                                 </div>

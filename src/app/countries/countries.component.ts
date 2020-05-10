@@ -1,10 +1,12 @@
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
-import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData, compare, countryHeadercells } from '../helper';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { GlobalService } from '../global.service';
+import { getDateFormatted, saveToPDF, CountryData, compare, countryHeadercells } from '../helper';
+
 @Component({
   selector: 'app-countries',
   templateUrl: './countries.component.html',
@@ -25,7 +27,7 @@ export class CountriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dropDownSelectAction('select');
+    this.dropDownSelectAction('savedSetup');
     this.loading = true;
     let d = new Date();
     d.setHours(d.getHours() - 1);
@@ -118,15 +120,24 @@ export class CountriesComponent implements OnInit {
     });
   }
 
+  
   public dropDownSelectAction(args: string) {
     if (args == 'select') {
       this.headercells.forEach(item => {
         item.visibility = true;
       })
-    } else {
+    } else if (args == 'deselect') {
       this.headercells.forEach(item => {
         item.visibility = false;
       })
+    } else if (args == "savedSetup") {
+      let headerItems = localStorage.getItem('countriesHeaderCells');
+      headerItems ? this.headercells = JSON.parse(headerItems) : this.dropDownSelectAction('select');
     }
+  }
+
+  public saveSetup(args: string, dropdown: NgbDropdown) {
+    localStorage.setItem(args, JSON.stringify(this.headercells));
+    dropdown.close();
   }
 }

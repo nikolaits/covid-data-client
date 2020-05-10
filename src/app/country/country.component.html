@@ -27,10 +27,10 @@
                             value="Refresh">
                         <input *ngIf="items.length > 0" class="btn btn-secondary btn-lg m-2 float-right" type="button"
                             (click)="savePDF()" value="Save as PDF">
-                        <div *ngIf="items.length > 0" ngbDropdown class="d-inline-block">
+                        <div *ngIf="items.length > 0" ngbDropdown #dd="ngbDropdown" class="d-inline-block">
                             <button class="btn btn-outline-secondary btn-lg m-2 dark float-right" id="dropdownCountries"
                                 ngbDropdownToggle>Columns' visibility</button>
-                            <div ngbDropdownMenu autoClose="false" aria-labelledby="dropdownCountries"
+                            <div ngbDropdownMenu aria-labelledby="dropdownCountries"
                                 style="background-color: lightgray;">
                                 <pre class="float-right m-2">Select columns, you want to show/hide.</pre>
                                 <div class="container mb-2">
@@ -42,6 +42,10 @@
                                         <div class="col-sm p-2">
                                             <button type="button" class="btn btn-secondary btn-sm float-right  btn-block"
                                                 (click)="dropDownSelectAction('deselect')">Deselect All</button>
+                                        </div>
+                                        <div class="col-sm p-2">
+                                            <button type="button" class="btn btn-secondary btn-sm float-right  btn-block"
+                                                (click)="saveSetup('countriesHeaderCells', dd)">Save setup</button>
                                         </div>
                                     </div>
                                 </div>

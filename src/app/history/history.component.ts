@@ -1,10 +1,11 @@
 import { Component, OnInit, PipeTransform } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { GlobalService } from '../global.service';
-import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare, countryHeadercells, globalHeadercells } from '../helper';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { GlobalService } from '../global.service';
+import { getDateFormatted, saveToPDF, CountryData, compare, reduceCompare, countryHeadercells, globalHeadercells } from '../helper';
 import { NotificationsService } from '../notifications.service';
 
 @Component({
@@ -37,8 +38,8 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dropDownSelectAction('select');
-    this.globalDropDownSelectAction('select');
+    this.dropDownSelectAction('savedSetup');
+    this.globalDropDownSelectAction('savedSetup');
     this.form = this.formbuilder.group({
       dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
     });
@@ -245,10 +246,13 @@ export class HistoryComponent implements OnInit {
       this.headercells.forEach(item => {
         item.visibility = true;
       })
-    } else {
+    } else if (args == 'deselect') {
       this.headercells.forEach(item => {
         item.visibility = false;
       })
+    } else if (args == "savedSetup") {
+      let headerItems = localStorage.getItem('countriesHeaderCells');
+      headerItems ? this.headercells = JSON.parse(headerItems) : this.dropDownSelectAction('select');
     }
   }
   public globalDropDownSelectAction(args: string) {
@@ -256,10 +260,17 @@ export class HistoryComponent implements OnInit {
       this.globalheadercells.forEach(item => {
         item.visibility = true;
       })
-    } else {
+    } else if (args == 'deselect') {
       this.globalheadercells.forEach(item => {
         item.visibility = false;
       })
+    } else if (args == "savedSetup") {
+      let headerItems = localStorage.getItem('globalHeaderCells');
+      headerItems ? this.globalheadercells = JSON.parse(headerItems) : this.globalDropDownSelectAction('select');
     }
+  }
+  public saveSetup(args: string, dropdown: NgbDropdown) {
+    args == 'countriesHeaderCells' ? localStorage.setItem(args, JSON.stringify(this.headercells)) : localStorage.setItem(args, JSON.stringify(this.globalheadercells));
+    dropdown.close();
   }
 }
