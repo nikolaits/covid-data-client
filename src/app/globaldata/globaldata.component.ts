@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GlobalService } from '../global.service';
 import { getDateFormatted, saveToPDF, GlobalData, compare, globalHeadercells } from '../helper';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class GlobaldataComponent implements OnInit {
   constructor(private globalService: GlobalService) { }
   
   ngOnInit(): void {
+    this.globalDropDownSelectAction('savedSetup');
     let d = new Date();
     d.setHours(0);
     d.setMinutes(0);
@@ -62,5 +64,23 @@ export class GlobaldataComponent implements OnInit {
       }
 
     }, e => { console.log("ERROR: ", e.status); });
+  }
+  public globalDropDownSelectAction(args: string) {
+    if (args == 'select') {
+      this.globalheadercells.forEach(item => {
+        item.visibility = true;
+      })
+    } else if (args == 'deselect') {
+      this.globalheadercells.forEach(item => {
+        item.visibility = false;
+      })
+    } else if (args == "savedSetup") {
+      let headerItems = localStorage.getItem('globalHeaderCells');
+      headerItems ? this.globalheadercells = JSON.parse(headerItems) : this.globalDropDownSelectAction('init');
+    }
+  }
+  public saveSetup(args: string, dropdown: NgbDropdown) {
+    localStorage.setItem(args, JSON.stringify(this.globalheadercells));
+    dropdown.close();
   }
 }

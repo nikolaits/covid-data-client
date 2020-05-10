@@ -52,7 +52,7 @@ a {
     background: #1B2030 url(https://www.eu-cord.org/2015/wp-content/uploads/2020/04/covid-19.jpg) 50% 0 no-repeat;
     background-size: 100%;
     background-attachment: fixed;
-    animation: grow 360s linear 10ms infinite;
+    animation: grow 60s linear 10ms infinite;
     transition: all 0.4s ease-in-out;
     z-index: -2
 }
@@ -102,7 +102,7 @@ a {
         transform: scale(1) translateY(0px)
     }
     50% {
-        transform: scale(1.2) translateY(-400px)
+        transform: scale(1.2) translateY(-30px)
     }
 }
 
@@ -190,3 +190,11 @@ a {
 .custom-day.faded {
     background-color: rgba(2, 117, 216, 0.5);
 }
+@media screen and (max-width: 730px){
+    .header::before{
+      height: 100%;
+      -webkit-animation:none!important;
+      animation: none!important;
+      background-size: cover;
+    }
+  }

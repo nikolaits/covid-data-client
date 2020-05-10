@@ -132,7 +132,7 @@ export class CountriesComponent implements OnInit {
       })
     } else if (args == "savedSetup") {
       let headerItems = localStorage.getItem('countriesHeaderCells');
-      headerItems ? this.headercells = JSON.parse(headerItems) : this.dropDownSelectAction('select');
+      headerItems ? this.headercells = JSON.parse(headerItems) : this.dropDownSelectAction('init');
     }
   }
 

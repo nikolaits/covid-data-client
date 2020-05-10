@@ -1,4 +1,3 @@
-import { isDevMode } from '@angular/core';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 // export const baseURL = "http://localhost:3009";
@@ -33,22 +32,22 @@ export interface GlobalData {
 export const countryHeadercells: Array<any> = [
   { value: 'country', name: 'Country', visibility: true },
   { value: 'cases', name: 'Cases', visibility: true },
-  { value: 'todayCases', name: 'TodayCases', visibility: true },
+  { value: 'todayCases', name: 'TodayCases', visibility: false },
   { value: 'deaths', name: 'Deaths', visibility: true },
-  { value: 'todayDeaths', name: 'TodayDeaths', visibility: true },
+  { value: 'todayDeaths', name: 'TodayDeaths', visibility: false },
   { value: 'recovered', name: 'Recovered', visibility: true },
   { value: 'active', name: 'Active', visibility: true },
-  { value: 'critical', name: 'Critical', visibility: true },
-  { value: 'casesPerOneMillion', name: 'CasesPerOneMillion', visibility: true },
-  { value: 'deathsPerOneMillion', name: 'DeathsPerOneMillion', visibility: true },
+  { value: 'critical', name: 'Critical', visibility: false },
+  { value: 'casesPerOneMillion', name: 'CasesPerOneMillion', visibility: false },
+  { value: 'deathsPerOneMillion', name: 'DeathsPerOneMillion', visibility: false },
   { value: 'totalTests', name: 'TotalTests', visibility: true },
-  { value: 'testsPerOneMillion', name: 'TestsPerOneMillion', visibility: true },
+  { value: 'testsPerOneMillion', name: 'TestsPerOneMillion', visibility: false },
   { value: 'datetime', name: 'Date', visibility: true },
 ];
 
 export const globalHeadercells: Array<any> = [
   { value: 'cases', name: 'Cases', visibility: true },
-  { value: 'deaths', name: 'Deaths', visibility: true },
+  { value: 'deaths', name: 'Deaths', visibility: false },
   { value: 'recovered', name: 'Recovered', visibility: true },
   { value: 'datetime', name: 'Date', visibility: true },
 ];
