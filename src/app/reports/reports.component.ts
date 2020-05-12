@@ -326,7 +326,7 @@ export class ReportsComponent implements OnInit {
       dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
     });
     this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 3);
   }
 
   ngOnInit() {
