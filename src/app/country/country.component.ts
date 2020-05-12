@@ -15,7 +15,7 @@ export class CountryComponent implements OnInit {
   public countries: Array<CountryData> = [];
   public slectedCountry: string = "";
   public sorttype: string = "desc";
-  public selectedS: string = "cases"
+  public selectedS: string = "datetime"
   public loading = false;
   public headercells: Array<any> = countryHeadercells;
   constructor(private globalService: GlobalService) { }

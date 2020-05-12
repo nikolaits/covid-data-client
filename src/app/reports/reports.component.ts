@@ -322,8 +322,9 @@ export class ReportsComponent implements OnInit {
   ];
 
   constructor(@Inject(DOCUMENT) private document: Document, private globalService: GlobalService, private nService: NotificationsService, private formbuilder: FormBuilder, private ngChartjsService: NgChartjsService, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
+    const fiveDaysBefore = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000)
     this.form = this.formbuilder.group({
-      dateRange: new FormControl([new Date(2020, 3, 17, 0, 0), new Date()]),
+      dateRange: new FormControl([fiveDaysBefore, new Date()]),
     });
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 3);
