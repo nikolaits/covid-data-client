@@ -22,22 +22,22 @@
   <button (click)="toggleNavbar()"class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="true" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div  class="collapse navbar-collapse" id="navbarNav" [ngClass]="{ 'show': navbarOpen }" >
+  <div class="collapse navbar-collapse" id="navbarNav" [ngClass]="{ 'show': navbarOpen }" >
     <ul class="navbar-nav">
       <li class="nav-item"  routerLinkActive="active">
-        <a class="nav-link" routerLink="/"  href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" routerLink="/" (click)="navbarOpen = false"  href="/">Home </a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="country" href="/country">Data per country</a>
+        <a class="nav-link" routerLink="country" (click)="navbarOpen = false" href="/country">Data per country</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="countries" href="/countries">All countries</a>
+        <a class="nav-link" routerLink="countries" (click)="navbarOpen = false" href="/countries">All countries</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="history" href="/history">Data History</a>
+        <a class="nav-link" routerLink="history" (click)="navbarOpen = false" href="/history">Data History</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="reports" href="/reports">Reports</a>
+        <a class="nav-link" routerLink="reports" (click)="navbarOpen = false" href="/reports">Reports</a>
       </li>
     </ul>
   </div>

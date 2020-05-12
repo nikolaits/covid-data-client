@@ -12,7 +12,10 @@ export class AppComponent {
   constructor(private config: NgbDropdownConfig){
     config.autoClose = false;
   }
-  toggleNavbar() {
+  public toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
+  }
+  public onNavClick(){
+    alert("click")
   }
 }
