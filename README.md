@@ -1,4 +1,4 @@
-# CovidDataClient
+# PCovidDataClient
 
 ## [DEMO](https://nikolaits.github.io/covid-data-client/)
 
